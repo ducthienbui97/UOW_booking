@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'userId',
             onDelete: 'CASCADE'
         });
-        Transaction.hasMany(model.Ticket, {
+        Transaction.hasMany(models.Ticket, {
             foreignKey: 'transactionId',
             onDelete: 'CASCADE'
         })

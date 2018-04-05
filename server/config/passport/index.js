@@ -22,9 +22,10 @@ passport.use('signup', new Strategy({
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
     function(req, email, password, done) {
+        console.log(req.body);
         User.findOrCreate({
             where: { email: email },
-            default: {
+            defaults: {
                 password: bCrypt.hashSync(password),
                 name: req.body.name,
                 studentNo: req.body.studentNo
@@ -37,17 +38,18 @@ passport.use('signup', new Strategy({
         })
     }));
 passport.use('signin', new Strategy({
-    // by default, local strategy uses username and password, we will override with email
-    usernameField: 'email',
-    passwordField: 'password',
-    passReqToCallback: true // allows us to pass back the entire request to the callback
-}, function(req, email, password, done) {
-    User.findOne({ where: { email: email } }).then(function(user) {
-        if (!user)
-            return done(null, false, { message: 'Email does not exist' });
-        if (!bCrypt.compareSync(user.password, password))
-            return done(null, false, { message: 'Incorrect password.' });
-        return done(null, user.get());
-    })
-}));
+        // by default, local strategy uses username and password, we will override with email
+        usernameField: 'email',
+        passwordField: 'password',
+        passReqToCallback: true // allows us to pass back the entire request to the callback
+    },
+    function(req, email, password, done) {
+        User.findOne({ where: { email: email } }).then(function(user) {
+            if (!user)
+                return done(null, false, { message: 'Email does not exist' });
+            if (!bCrypt.compareSync(password, user.password))
+                return done(null, false, { message: 'Incorrect password.' });
+            return done(null, user.get());
+        })
+    }));
 module.exports = passport;
