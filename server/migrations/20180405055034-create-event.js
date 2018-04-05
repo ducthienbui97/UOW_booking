@@ -4,9 +4,9 @@ module.exports = {
         return queryInterface.createTable('Events', {
             id: {
                 allowNull: false,
-                autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
+                type: Sequelize.UUID,
+                defaultValue: Sequelize.UUIDV4
             },
             name: {
                 allowNull: false,
@@ -37,6 +37,9 @@ module.exports = {
             time: {
                 allowNull: false,
                 type: Sequelize.DATE
+            },
+            imageURL: {
+                type: Sequelize.STRING
             },
             createdAt: {
                 allowNull: false,

@@ -1,6 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     var Event = sequelize.define('Event', {
+        id: {
+            allowNull: false,
+            primaryKey: true,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4
+        },
         name: DataTypes.STRING,
         description: DataTypes.TEXT,
         price: DataTypes.FLOAT,
@@ -23,7 +29,14 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
     Event.associate = function(models) {
         // associations can be defined here
-        Event.belongsTo(models.User);
+        Event.belongsTo(models.User, {
+            foreignKey: 'userId',
+            onDelete: 'CASCADE'
+        });
+        Event.hasMany(models.Promotion, {
+            foreignKey: 'eventId',
+            onDelete: 'CASCADE'
+        })
     };
     return Event;
 };
