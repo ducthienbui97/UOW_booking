@@ -18,6 +18,7 @@ module.exports = {
             },
             price: {
                 allowNull: false,
+                defaultValue: 0,
                 type: Sequelize.FLOAT
             },
             capacity: {
@@ -26,11 +27,16 @@ module.exports = {
             },
             max: {
                 allowNull: false,
-                type: Sequelize.INTEGER,
-                validate: {
-                    min: 1,
-                    max: 10
-                }
+                defaultValue: 1,
+                type: Sequelize.INTEGER
+            },
+            location: {
+                allowNull: false,
+                type: Sequelize.STRING
+            },
+            time: {
+                allowNull: false,
+                type: Sequelize.DATE
             },
             createdAt: {
                 allowNull: false,

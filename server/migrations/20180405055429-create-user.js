@@ -19,15 +19,9 @@ module.exports = {
             email: {
                 allowNull: false,
                 type: Sequelize.STRING,
-                validate: {
-                    isEmail: true
-                }
             },
             studentNo: {
-                type: Sequelize.STRING,
-                validate: {
-                    isNumeric: true
-                }
+                type: Sequelize.STRING
             },
             createdAt: {
                 allowNull: false,

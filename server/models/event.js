@@ -5,11 +5,25 @@ module.exports = (sequelize, DataTypes) => {
         description: DataTypes.TEXT,
         price: DataTypes.FLOAT,
         capacity: DataTypes.INTEGER,
-        max: DataTypes.INTEGER
+        location: DataTypes.STRING,
+        imageURL: {
+            type: DataTypes.STRING,
+            validate: {
+                isUrl: true
+            }
+        },
+        time: DataTypes.DATE,
+        max: {
+            type: DataTypes.INTEGER,
+            validate: {
+                min: 1,
+                max: 10
+            }
+        }
     }, {});
     Event.associate = function(models) {
         // associations can be defined here
-        Event.belongsTo(User);
+        Event.belongsTo(models.User);
     };
     return Event;
 };
