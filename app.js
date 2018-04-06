@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //passport
-app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.use(session({ secret: 'UOW booking', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 

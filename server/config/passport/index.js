@@ -37,7 +37,7 @@ passport.use('signup', new Strategy({
                 return done(null, user.get());
         })
     }));
-passport.use('signin', new Strategy({
+passport.use('login', new Strategy({
         // by default, local strategy uses username and password, we will override with email
         usernameField: 'email',
         passwordField: 'password',
