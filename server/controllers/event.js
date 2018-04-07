@@ -17,21 +17,44 @@ module.exports = {
                     limit,
                     order: models.sequelize.col('time')
                 }).then(events => {
-                        res.render('event/all',{events: events.map(event => event.get({plain:true}))});
-                    }
-                );
+                    res.render('event/all', {events: events.map(event => event.get({plain: true}))});
+                });
             }
         },
-        single: (req,res) => {
-            console.log(req.params);
+        ofUser: (pages) =>{
+            var offset = (pages - 1)*limit;
+            return (req,res) =>{
+                req.user.getEvents({
+                    where: {
+                        time: {
+                            [models.sequelize.Op.gt]: models.sequelize.literal('CURRENT_TIMESTAMP')
+                        }
+                    },
+                    offset,
+                    limit,
+                    order: models.sequelize.col('time')
+                }).then(events => {
+                    res.render('event/all', {events: events.map(event => event.get({plain: true}))});
+                })
+            }
+        },
+        single: (req,res,next) => {
             models.Event.findById(req.params.id).then(event => {
-                res.render('event/single', {event: event.get({plain: true}), count: event.count})
+                if(!event){
+                    var err = new Error('Event Not Found');
+                    err.status = 404;
+                    next(err);
+                }
+                event.getUser().then(user => res.render('event/single', {
+                    event: event.get({plain: true}),
+                    creator: user.get({plain: true})
+                }));
             })
         }
     },
     post: {
         create: (req,res) =>{
-            console.log(req.file)
+            console.log(req.file);
             var image = req.file.buffer.toString('base64');
             var headers = {
                 Authorization:'Client-ID 39d2af2c4bd771e',
@@ -39,7 +62,6 @@ module.exports = {
             axios.post('https://api.imgur.com/3/image',{image},{headers}).then(response => {
                 req.body.imageURL = response.data.data.link;
                 req.user.createEvent(req.body);
-                console.log(req.body);
                 res.redirect('/');
             });
         }

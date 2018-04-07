@@ -1,6 +1,14 @@
-<%- include("../index",{title:"test"})%>
+<html>
+<%- include ../head%>
+<body>
+<%- include ../header%>
 <%events.forEach(event => {%>
     <h2><a href="/event/<%=event.id%>"><%= event.name%></a></h2>
     <p><%= event.time%></p>
     <p><%=event.location%></p>
+    <%if(user && user.id == event.userId){%>
+        <p> editable </p>
+    <%}%>
 <%})%>
+</body>
+</html>

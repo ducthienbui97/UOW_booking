@@ -1,5 +1,22 @@
-<h2><%= event.name%></h2>
-<p><%= event.time %></p>
-<p><%= event.location %></p>
-<p><%= event.description%></p>
-<p><%= event.%></p>
+<html>
+<%- include ../head%>
+<body>
+<%- include ../header%>
+<h2><%= event.name%> By <%= creator.name%></h2>
+<img src="<%=event.imageURL%>">
+<p>Time: <%= event.time %></p>
+<p>Location: <%= event.location %></p>
+<p>Description: <%= event.description%></p>
+<p>Price: $<%= event.price%></p>
+
+<form action="/booking" method="get">
+    <select name="count">
+        <%for(var i = 1; i <= event.max; i++){%>
+        <option value=<%=i%> ><%=i%></option>
+        <%}%>
+    </select>
+    <input name="id" value=<%=event.id%> hidden>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

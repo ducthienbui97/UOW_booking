@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'CASCADE'
         });
         User.belongsToMany(models.Event,{
-            as: 'Buyer',
+            as: 'bookedEvents',
             through: models.Transaction,
             foreignKey:'userId',
             onDelete: 'CASCADE'

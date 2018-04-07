@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
         });
         Event.belongsToMany(models.User, {
             through: models.Transaction,
-            as: 'bookedEvent',
+            as: 'buyers',
             foreignKey: 'eventId',
             onDelete: 'CASCADE'
         });

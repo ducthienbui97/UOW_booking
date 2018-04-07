@@ -21,10 +21,6 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'promotionId',
             onDelete: 'SET NULL'
         });
-        Transaction.belongsTo(models.User, {
-            foreignKey: 'userId',
-            onDelete: 'CASCADE'
-        });
         Transaction.hasMany(models.Ticket, {
             foreignKey: 'transactionId',
             onDelete: 'CASCADE'

@@ -51,7 +51,7 @@ module.exports = {
                 onDelete: 'CASCADE',
                 allowNull: false,
                 references: {
-                    model: 'Transactions',
+                    model: 'Events',
                     key: 'id'
                 }
             })
