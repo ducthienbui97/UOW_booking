@@ -1,0 +1,9 @@
+<nav>
+    <%if(!user){%>
+    <a href="/login" >login</a>
+    <a href="/signup">signup</a>
+    <%} else{%>
+    Welcome <%= user.name %> ( <a href="logout">logout</a> )
+    <a href="/event/new">new event</a>
+    <%}%>
+</nav>
