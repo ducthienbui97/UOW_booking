@@ -28,8 +28,7 @@ module.exports = {
                         {name:'Thien'}
                     ]
                 }
-            }).then(trans =>{
-                console.log(trans);
+            }).then(() =>{
                 res.redirect('/');
             })
         }
