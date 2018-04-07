@@ -25,7 +25,7 @@ module.exports = {
                 through:{
                     quantity:req.body.quantity,
                     tickets:[
-                        {name:'Thien'}
+                        {name:"Thien"}
                     ]
                 }
             }).then(() =>{
