@@ -45,14 +45,26 @@ module.exports = {
                     model: 'Transactions',
                     key: 'id'
                 }
+            }),
+            queryInterface.addColumn('Transactions','eventId',{
+                type: Sequelize.UUID,
+                onDelete: 'CASCADE',
+                allowNull: false,
+                references: {
+                    model: 'Transactions',
+                    key: 'id'
+                }
             })
         ])
     },
     down: (queryInterface, Sequelize) => {
         return Promise.all([
             queryInterface.removeColumn('Events', 'userId'),
+            queryInterface.removeColumn('Transactions','userId'),
             queryInterface.removeColumn('Promotions', 'eventId'),
-            queryInterface.removeColumn('Transactions', 'promotionId')
+            queryInterface.removeColumn('Transactions', 'promotionId'),
+            queryInterface.removeColumn('Tickets','transactionId'),
+            queryInterface.removeColumn('Transactions','eventId')
         ])
     }
 };

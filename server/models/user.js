@@ -30,8 +30,10 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'userId',
             onDelete: 'CASCADE'
         });
-        User.hasMany(models.Transaction, {
-            foreignKey: 'userId',
+        User.belongsToMany(models.Event,{
+            as: 'Buyer',
+            through: models.Transaction,
+            foreignKey:'userId',
             onDelete: 'CASCADE'
         })
     };

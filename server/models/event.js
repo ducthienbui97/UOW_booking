@@ -33,6 +33,12 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'userId',
             onDelete: 'CASCADE'
         });
+        Event.belongsToMany(models.User, {
+            through: models.Transaction,
+            as: 'bookedEvent',
+            foreignKey: 'eventId',
+            onDelete: 'CASCADE'
+        });
         Event.hasMany(models.Promotion, {
             foreignKey: 'eventId',
             onDelete: 'CASCADE'
