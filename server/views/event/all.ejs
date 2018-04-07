@@ -1,0 +1,6 @@
+<%- include("../index",{title:"test"})%>
+<%events.forEach(event => {%>
+    <h2><a href="/event/<%=event.id%>"><%= event.name%></a></h2>
+    <p><%= event.time%></p>
+    <p><%=event.location%></p>
+<%})%>

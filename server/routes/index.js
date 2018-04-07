@@ -1,7 +1,10 @@
 var express = require('express');
+var multer  = require('multer');
+var upload = multer({storage:multer.memoryStorage()});
 var router = express.Router();
 var auth = require('connect-ensure-login');
-
+var user = require('../controllers/user.js');
+var event = require('../controllers/event.js');
 module.exports = (passport) => {
     /* GET home page. */
     router.get('/', function(req, res, next) {
@@ -10,25 +13,16 @@ module.exports = (passport) => {
         });
     });
 
-    router.get('/users', auth.ensureLoggedIn(), function(req, res, next) {
-        res.send('respond with a resource');
-    });
-    router.get('/signup', function(req, res) {
-        res.render('signup');
-    });
-    router.get('/login', login = function(req, res) {
-        res.render('login');
-    });
-    router.post('/signup', passport.authenticate('signup', {
-        successReturnToOrRedirect: '/',
-        failureRedirect: '/signup'
-    }));
-    router.post('/login', passport.authenticate('login', {
-        successReturnToOrRedirect: '/',
-        failureRedirect: '/login'
-    }));
-    router.get('logout', function(req, res) {
-        req.session.destroy((err) => res.redirect('/'));
-    });
+    /*USERS*/
+    router.get('/signup', user.get.signup);
+    router.get('/login', user.get.login);
+    router.get('/logout', user.get.logout);
+    router.post('/signup', user.post.signup(passport));
+    router.post('/login', user.post.login(passport));
+
+    router.get('/event/new', auth.ensureLoggedIn(), event.get.create);
+    router.get('/event',event.get.all(1));
+    router.get('/event/:id', event.get.single)
+    router.post('/event', auth.ensureLoggedIn(),upload.single('image'), event.post.create);
     return router
 }

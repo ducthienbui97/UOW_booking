@@ -8,7 +8,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(id, done) {
     User.findById(id).then(function(user) {
         if (user) {
-            done(null, user.get());
+            done(null, user);
         } else {
             done(user.errors, null);
         }

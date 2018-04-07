@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var passport = require('./server/config/passport');
 var session = require('express-session');
 var routes = require('./server/routes');
+var local = require('./server/config/local.js');
 
 var app = express();
 
@@ -26,6 +27,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'UOW booking', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+// add local values
+app.use(local);
 
 // routes
 app.use('/', routes(passport));
