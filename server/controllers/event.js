@@ -54,7 +54,6 @@ module.exports = {
     },
     post: {
         create: (req,res) =>{
-            console.log(req.file);
             var image = req.file.buffer.toString('base64');
             var headers = {
                 Authorization:'Client-ID 39d2af2c4bd771e',

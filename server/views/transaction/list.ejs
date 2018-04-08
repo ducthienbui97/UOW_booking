@@ -1,0 +1,10 @@
+<html>
+<%- include ../head%>
+<body>
+<%- include ../header%>
+<h2>Booked events:</h2>
+<%events.forEach(event => {%>
+    <%- include('./single',{event:event}) %>
+<%})%>
+</body>
+</html>

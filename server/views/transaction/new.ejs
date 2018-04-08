@@ -4,11 +4,12 @@
 <%- include ../header%>
 Number of ticket: <%= tickets%> <br/>
 Price: <%= event.price%> <br/>
-Total: <%= event.price*tickets%> <br/>
+Total: <%= (event.price*tickets).toFixed(2)%> <br/>
 <form action="/booking" method="post">
     <input name="id" value=<%=event.id%> hidden>
     <input name="quantity" value=<%=tickets%> hidden>
     <button type="submit">Confirm</button>
 </form>
+<a href="/event/<%=event.id%>" ><button type="button">Back</button></a>
 </body>
 </html>

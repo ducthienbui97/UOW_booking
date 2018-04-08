@@ -9,13 +9,12 @@
 <p>Description: <%= event.description%></p>
 <p>Price: $<%= event.price%></p>
 
-<form action="/booking" method="get">
+<form action="/booking/<%=event.id%>" method="get">
     <select name="count">
         <%for(var i = 1; i <= event.max; i++){%>
         <option value=<%=i%> ><%=i%></option>
         <%}%>
     </select>
-    <input name="id" value=<%=event.id%> hidden>
     <button type="submit">Submit</button>
 </form>
 </body>

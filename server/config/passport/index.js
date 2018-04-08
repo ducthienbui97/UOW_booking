@@ -22,13 +22,12 @@ passport.use('signup', new Strategy({
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
     function(req, email, password, done) {
-        console.log(req.body);
         User.findOrCreate({
             where: { email: email },
             defaults: {
                 password: bCrypt.hashSync(password),
                 name: req.body.name,
-                studentNo: req.body.studentNo
+                studentNo: req.body.studentNo ? req.body.studentNo : null
             }
         }).spread((user, created) => {
             if (!created)

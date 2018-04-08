@@ -22,7 +22,8 @@ module.exports = (passport) => {
     router.post("/event", auth.ensureLoggedIn(),upload.single('image'), event.post.create);
 
     /*Transactions*/
-    router.get("/booking",auth.ensureLoggedIn(),transaction.get.booking);
+    router.get("/booking/:id",auth.ensureLoggedIn(),transaction.get.booking);
+    router.get("/booking",auth.ensureLoggedIn(),transaction.get.list);
     router.post("/booking",auth.ensureLoggedIn(),transaction.post.booking);
     return router
 }

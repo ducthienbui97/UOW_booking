@@ -3,7 +3,7 @@ var models = require('../models');
 module.exports = {
     get:{
         booking: (req,res,next) =>{
-            models.Event.findById(req.query.id).then(event =>{
+            models.Event.findById(req.params.id).then(event =>{
                 if(!event){
                     var err = new Error('Event Not Found');
                     err.status = 404;
@@ -17,19 +17,21 @@ module.exports = {
                     })
                 }
             })
+        },
+        list: (req,res,next) =>{
+            req.user.getBookedEvents().then(events => {
+                res.render('transaction/list',{events});
+            })
         }
     },
     post:{
         booking: (req,res,next) =>{
             req.user.addBookedEvent(req.body.id,{
                 through:{
-                    quantity:req.body.quantity,
-                    tickets:[
-                        {name:"Thien"}
-                    ]
+                    quantity:req.body.quantity
                 }
             }).then(() =>{
-                res.redirect('/');
+                res.redirect('/booking');
             })
         }
 
