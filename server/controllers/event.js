@@ -17,7 +17,9 @@ module.exports = {
                     limit,
                     order: models.sequelize.col('time')
                 }).then(events => {
-                    res.render('event/all', {events: events.map(event => event.get({plain: true}))});
+                    res.render('event/all', {
+                        title:'Home',
+                        events: events.map(event => event.get({plain: true}))});
                 });
             }
         },
@@ -34,7 +36,10 @@ module.exports = {
                     limit,
                     order: models.sequelize.col('time')
                 }).then(events => {
-                    res.render('event/all', {events: events.map(event => event.get({plain: true}))});
+                    res.render('event/all', {
+                        title:'Created events:',
+                        events: events.map(event => event.get({plain: true}))
+                    });
                 })
             }
         },
