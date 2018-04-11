@@ -80,6 +80,10 @@ body-parser@~1.18.2:
     raw-body "2.3.2"
     type-is "~1.6.15"
 
+bower@^1.8.4:
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/bower/-/bower-1.8.4.tgz#e7876a076deb8137f7d06525dc5e8c66db82f28a"
+
 buffer-from@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.0.0.tgz#4cb8832d23612589b0406e9e2956c17f06fdf531"

@@ -28,9 +28,12 @@ module.exports = {
                         next(err);
                     else if(!user)
                         res.render('user/login',{error:info});
-                    else if(req.session.returnTo)
-                        res.redirect(req.session.returnTo);
-                    else res.redirect('/');
+                    else req.login(user, (err) =>{
+                        if(err) return next(err);
+                        if(req.session.returnTo)
+                            res.redirect(req.session.returnTo);
+                        else res.redirect('/');
+                    })
                 })(req,res,next);
             };
         }
