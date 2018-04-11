@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <%- include ../head%>
-</head>
-
-<body>
-<%- include ../header%>
+<%- include ../head%>
 <form id="event" name="event" method="post" action="../event" enctype="multipart/form-data" >
     <label for="name">Title</label>
     <input name="name" type="text" required/> <br/>
@@ -26,7 +18,4 @@
     <input name="max" type="number" min="1" value="1" step="1"><br/>
     <input class="btn" type="submit" value="Create" />
 </form>
-
-</body>
-
-</html>
+<%-include ../foot%>

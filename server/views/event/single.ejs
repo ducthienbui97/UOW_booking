@@ -1,10 +1,8 @@
-<html>
 <%- include ../head%>
-<body>
-<%- include ../header%>
+
 <h2><%= event.name%> By <%= creator.name%></h2>
 <img src="<%=event.imageURL%>">
-<p>Time: <%= event.time %></p>
+<p>Time: <%= event.start_time %></p>
 <p>Location: <%= event.location %></p>
 <p>Description: <%= event.description%></p>
 <p>Price: $<%= event.price%></p>
@@ -17,5 +15,4 @@
     </select>
     <button type="submit">Submit</button>
 </form>
-</body>
-</html>
+<%-include ../foot%>

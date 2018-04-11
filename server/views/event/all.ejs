@@ -1,15 +1,11 @@
-<html>
-<%- include ../head%>
-<body>
-<%- include ../header%>
+<%-include ../head%>
 <h1><%= title?title:"Home"%></h1>
 <%events.forEach(event => {%>
     <h2><a href="/event/<%=event.id%>"><%= event.name%></a></h2>
-    <p><%= event.time%></p>
+    <p><%= event.start_time%></p>
     <p><%=event.location%></p>
-    <%if(user && user.id == event.userId){%>
+    <%if(locals.user && user.id == event.userId){%>
         <p> editable </p>
     <%}%>
 <%})%>
-</body>
-</html>
+<%-include ../foot%>

@@ -1,0 +1,12 @@
+<nav class="nav">
+    <a href="/" class="nav-link">Home</a>
+    <%if(!user){%>
+        <a href="/login" class="nav-link" >Login</a>
+        <a href="/signup" class="nav-link">Signup</a>
+    <%} else{%>
+    Welcome <%= user.name %> ( <a href="logout">logout</a> )
+        <a href="/event/new" class="nav-link">New Event</a>
+        <a href="/booking" class="nav-link">My Bookings</a>
+        <a href="/event" class="nav-link">My Events</a>
+    <%}%>
+</nav>
