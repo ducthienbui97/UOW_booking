@@ -26,17 +26,25 @@ module.exports = (passport) => {
     /*Events*/
     router.get("/",(req,res,next) => {
         res.locals.currentPage = "home";
-        res.locals.title = "Home";
         next()
     }, event.get.all(1));
-    router.get("/event/new", auth.ensureLoggedIn(), event.get.create);
-    router.get("/event", auth.ensureLoggedIn(), event.get.ofUser(1));
+    router.get("/event/new", auth.ensureLoggedIn(),(req,res,next) => {
+      res.locals.currentPage = "new-event";
+      next()
+    }, event.get.create);
+    router.get("/event", auth.ensureLoggedIn(), (req,res,next) =>{
+      res.locals.currentPage = "event";
+      next()
+    }, event.get.ofUser(1));
     router.get("/event/:id", event.get.single);
     router.post("/event", auth.ensureLoggedIn(),upload.single('image'), event.post.create);
 
     /*Transactions*/
     router.get("/booking/:id",auth.ensureLoggedIn(),transaction.get.booking);
-    router.get("/booking",auth.ensureLoggedIn(),transaction.get.list);
+    router.get("/booking",auth.ensureLoggedIn(), (req,res,next) =>{
+      res.locals.currentPage = "booking";
+      next()
+    },transaction.get.list);
     router.post("/booking",auth.ensureLoggedIn(),transaction.post.booking);
     return router
 }

@@ -1,15 +1,22 @@
-<ul class="nav nav-tabs">
-    <li class="nav-item"><a href="/" class="nav-link" id="home">Home</a></li>
+<nav class="nav nav-tabs navbar-expand-lg justify-content-between">
     <%if(!user){%>
-        <li class="nav-item"><a href="/login" class="nav-link" id="login">Login</a></li>
-        <li class="nav-item"><a href="/signup" class="nav-link" id="signup">Signup</a></li>
+        <a href="/" class="nav-link nav-item navbar-brand" id="home">Home</a>
+        <div class="navbar-nav">
+            <a href="/login" class="nav-link nav-item" id="login">Login</a></li>
+            <a href="/signup" class="nav-link nav-item" id="signup">Signup</a></li>
+        </div>
     <%} else{%>
-        <li class="nav-item">Welcome <%= user.name %> ( <a href="logout">logout</a> )</li>
-        <li class="nav-item"><a href="/event/new" class="nav-link" id="new-event">New Event</a></li>
-        <li class="nav-item"><a href="/booking" class="nav-link" id="booking">My Bookings</a></li>
-        <li class="nav-item"><a href="/event" class="nav-link" id="event">My Events</a></li>
+        <div class="navbar-nav">
+            <a href="/" class="nav-link nav-item navbar-brand" id="home">Home</a>
+            <a href="/event/new" class="nav-link nav-item" id="new-event">New Event</a>
+            <a href="/booking" class="nav-link nav-item" id="booking">My Bookings</a>
+            <a href="/event" class="nav-link nav-item" id="event">My Events</a>
+        </div>
+        <div>
+            Welcome <%= user.name %> ( <a href="logout">logout</a> )
+        </div>
     <%}%>
-</ul>
+</nav>
 
 <script defer>
     <%if(locals.currentPage){%>

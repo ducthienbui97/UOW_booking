@@ -3,7 +3,7 @@ var axios = require('axios');
 var limit = 50;
 module.exports = {
     get:{
-        create: (req,res) => res.render('event/create'),
+        create: (req,res) => res.render('event/create',{title:"New Event"}),
         all: (pages) =>{
             var offset = (pages - 1)*limit;
             return (req,res) => {
@@ -23,7 +23,7 @@ module.exports = {
                 });
             }
         },
-        ofUser: (pages) =>{
+      ofUser: (pages) =>{
             var offset = (pages - 1)*limit;
             return (req,res) =>{
                 req.user.getEvents({
@@ -34,7 +34,7 @@ module.exports = {
                     },
                     offset,
                     limit,
-                    order: models.sequelize.col('time')
+                    order: models.sequelize.col('start_time')
                 }).then(events => {
                     res.render('event/all', {
                         title:'Created events:',

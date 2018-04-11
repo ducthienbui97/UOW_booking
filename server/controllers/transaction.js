@@ -19,8 +19,11 @@ module.exports = {
             })
         },
         list: (req,res,next) =>{
-            req.user.getBookedEvents().then(events => {
-                res.render('transaction/list',{events});
+            req.user.getBookedEvents({order: models.sequelize.col('start_time')}).then(events => {
+                res.render('transaction/list',{
+                    events:events.map(event => event.get({plain:true})),
+                    title: "Booked events"
+                });
             })
         }
     },
