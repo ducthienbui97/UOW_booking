@@ -15,4 +15,13 @@
 </head>
 <body>
 <%- include navbar %>
-
+<%if(locals.error && locals.error.message){%>
+    <div class="alert alert-danger">
+        <%= error.message%>
+    </div>
+<%}%>
+<%if(locals.success && locals.success.message){%>
+<div class="alert alert-success">
+    <%= success.message%>
+</div>
+<%}%>
