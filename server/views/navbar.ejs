@@ -1,12 +1,20 @@
-<nav class="nav">
-    <a href="/" class="nav-link">Home</a>
+<ul class="nav nav-tabs">
+    <li class="nav-item"><a href="/" class="nav-link" id="home">Home</a></li>
     <%if(!user){%>
-        <a href="/login" class="nav-link" >Login</a>
-        <a href="/signup" class="nav-link">Signup</a>
+        <li class="nav-item"><a href="/login" class="nav-link" id="login">Login</a></li>
+        <li class="nav-item"><a href="/signup" class="nav-link" id="signup">Signup</a></li>
     <%} else{%>
-    Welcome <%= user.name %> ( <a href="logout">logout</a> )
-        <a href="/event/new" class="nav-link">New Event</a>
-        <a href="/booking" class="nav-link">My Bookings</a>
-        <a href="/event" class="nav-link">My Events</a>
+        <li class="nav-item">Welcome <%= user.name %> ( <a href="logout">logout</a> )</li>
+        <li class="nav-item"><a href="/event/new" class="nav-link" id="new-event">New Event</a></li>
+        <li class="nav-item"><a href="/booking" class="nav-link" id="booking">My Bookings</a></li>
+        <li class="nav-item"><a href="/event" class="nav-link" id="event">My Events</a></li>
     <%}%>
-</nav>
+</ul>
+
+<script defer>
+    <%if(locals.currentPage){%>
+        $("#<%=currentPage%>").addClass("active");
+        console.log($("#<%=currentPage%>"))
+    <%}%>
+
+</script>

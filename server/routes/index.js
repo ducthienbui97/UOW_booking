@@ -6,16 +6,29 @@ var auth = require("connect-ensure-login");
 var user = require("../controllers/user.js");
 var event = require("../controllers/event.js");
 var transaction = require("../controllers/transaction");
+
 module.exports = (passport) => {
     /*Users*/
     router.get("/signup", user.get.signup);
-    router.get("/login", user.get.login);
+    router.get("/login",(req,res,next) =>{
+        res.locals.currentPage = "login";
+        res.locals.title = "Login";
+        next()
+    }, user.get.login);
     router.get("/logout", user.get.logout);
-    router.post("/signup", user.post.signup(passport));
+    router.post("/signup",(req,res,next) =>{
+        res.locals.currentPage = "signup";
+        res.locals.title = "Signup";
+        next()
+    }, user.post.signup(passport));
     router.post("/login", user.post.login(passport));
 
     /*Events*/
-    router.get("/",event.get.all(1));
+    router.get("/",(req,res,next) => {
+        res.locals.currentPage = "home";
+        res.locals.title = "Home";
+        next()
+    }, event.get.all(1));
     router.get("/event/new", auth.ensureLoggedIn(), event.get.create);
     router.get("/event", auth.ensureLoggedIn(), event.get.ofUser(1));
     router.get("/event/:id", event.get.single);

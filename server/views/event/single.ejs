@@ -1,8 +1,9 @@
 <%- include ../head%>
 
-<h2><%= event.name%> By <%= creator.name%></h2>
+<h2><%= event.name%> by <%= creator.name%></h2>
 <img src="<%=event.imageURL%>">
-<p>Time: <%= event.start_time %></p>
+<p>Start Time: <%= event.start_time %></p>
+<p>End Time: <%= event.end_time%></p>
 <p>Location: <%= event.location %></p>
 <p>Description: <%= event.description%></p>
 <p>Price: $<%= event.price%></p>
