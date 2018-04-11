@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
                 isUrl: true
             }
         },
-        time: DataTypes.DATE,
+        start_time: DataTypes.DATE,
+        end_time: DataTypes.DATE,
         max: {
             type: DataTypes.INTEGER,
             validate: {

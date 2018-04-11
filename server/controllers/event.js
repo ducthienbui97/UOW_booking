@@ -9,13 +9,13 @@ module.exports = {
             return (req,res) => {
                 models.Event.findAll({
                     where: {
-                        time: {
+                        start_time: {
                             [models.sequelize.Op.gt]: models.sequelize.literal('CURRENT_TIMESTAMP')
                         }
                     },
                     offset,
                     limit,
-                    order: models.sequelize.col('time')
+                    order: models.sequelize.col('start_time')
                 }).then(events => {
                     res.render('event/all', {
                         title:'Home',
@@ -28,7 +28,7 @@ module.exports = {
             return (req,res) =>{
                 req.user.getEvents({
                     where: {
-                        time: {
+                        start_time: {
                             [models.sequelize.Op.gt]: models.sequelize.literal('CURRENT_TIMESTAMP')
                         }
                     },
