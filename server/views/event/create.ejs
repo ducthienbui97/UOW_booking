@@ -1,5 +1,5 @@
 <%- include ../head%>
-<form id="event" name="event" method="post" action="../event" enctype="multipart/form-data" >
+<form id="event" name="event" method="post" action="/event" enctype="multipart/form-data" >
     <label for="name">Title</label>
     <input name="name" type="text" required/> <br/>
     <label for="location">Location</label>
@@ -18,6 +18,6 @@
     <input name="capacity" type="number" step="1" min="1" value="1" required><br/>
     <label for="max">Maximum number of ticket per user</label>
     <input name="max" type="number" min="1" value="1" step="1"><br/>
-    <input class="btn" type="submit" value="Create" />
 </form>
+<button class="btn" type="submit" form="event" value="Create">Create</button>
 <%-include ../foot%>

@@ -61,6 +61,7 @@ module.exports = passport => {
     event.get.ofUser
   );
   router.get("/event/:id", event.get.single);
+  router.get("/event/:id/edit", auth.ensureLoggedIn(), event.get.edit);
   router.post(
     "/event",
     auth.ensureLoggedIn(),
@@ -69,9 +70,17 @@ module.exports = passport => {
   );
 
   /*Promotions*/
-  router.get("/event/:id/promotion/new", auth.ensureLoggedIn(), promotion.get.new);
+  router.get(
+    "/event/:id/promotion/new",
+    auth.ensureLoggedIn(),
+    promotion.get.new
+  );
   router.get("/event/:id/promotion", auth.ensureLoggedIn(), promotion.get.list);
-  router.post("/event/:id/promotion",auth.ensureLoggedIn(),promotion.post.new);
+  router.post(
+    "/event/:id/promotion",
+    auth.ensureLoggedIn(),
+    promotion.post.new
+  );
 
   /*Transactions*/
   router.get("/booking/:id", auth.ensureLoggedIn(), transaction.get.booking);
@@ -87,8 +96,7 @@ module.exports = passport => {
   router.post("/booking", auth.ensureLoggedIn(), transaction.post.booking);
 
   /*Search*/
-  router.get("/search",search.get);
-
+  router.get("/search", search.get);
 
   return router;
 };

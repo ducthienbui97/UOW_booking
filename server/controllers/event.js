@@ -3,6 +3,20 @@ var axios = require("axios");
 var limit = 50;
 module.exports = {
   get: {
+    edit: (req, res) => {
+      models.Event.findById(req.params.id).then(event => {
+        if (event.userId == req.user.id) {
+          //console.log(models.Event.prototype);
+          console.log(Date.parse(event.start_time));
+          console.log(typeof event.start_time);
+          res.render("event/edit", { event: event.get({ plain: true }) });
+        } else {
+          var error = new Error("Forbidden");
+          error.status = 403;
+          next(error);
+        }
+      });
+    },
     create: (req, res) => res.render("event/create", { title: "New Event" }),
     all: (req, res, next) => {
       var pages = req.query.pages ? req.query.pages : 1;
