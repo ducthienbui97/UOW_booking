@@ -1,6 +1,7 @@
 <nav class="nav nav-tabs navbar-expand-lg justify-content-between">
     <%if(!user){%>
         <a href="/" class="nav-link nav-item navbar-brand" id="home">Home</a>
+        <%- include searchbar%>
         <div class="navbar-nav">
             <a href="/login" class="nav-link nav-item" id="login">Login</a></li>
             <a href="/signup" class="nav-link nav-item" id="signup">Signup</a></li>
@@ -12,6 +13,7 @@
             <a href="/booking" class="nav-link nav-item" id="booking">My Bookings</a>
             <a href="/event" class="nav-link nav-item" id="event">My Events</a>
         </div>
+        <%- include searchbar%>
         <div>
             Welcome <%= user.name %> ( <a href="logout">logout</a> )
         </div>

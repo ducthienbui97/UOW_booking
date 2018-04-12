@@ -1,5 +1,4 @@
 <%-include ../head%>
-<h1><%= title?title:"Home"%></h1>
 <%events.forEach(event => {%>
     <h2><a href="/event/<%=event.id%>"><%= event.name%></a></h2>
     <p><%= event.start_time%></p>
