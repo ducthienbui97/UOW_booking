@@ -3,8 +3,5 @@
     <h2><a href="/event/<%=event.id%>"><%= event.name%></a></h2>
     <p><%= event.start_time%></p>
     <p><%=event.location%></p>
-    <%if(locals.user && user.id == event.userId){%>
-        <p> editable </p>
-    <%}%>
 <%})%>
 <%-include ../foot%>

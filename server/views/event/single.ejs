@@ -16,4 +16,7 @@
     </select>
     <button type="submit">Submit</button>
 </form>
+<%if(locals.user && user.id == event.userId){%>
+    <a href="/event/<%=event.id%>/promotion%>"><button>Manage Promotions</button></a>
+<%}%>
 <%-include ../foot%>

@@ -70,6 +70,8 @@ module.exports = passport => {
 
   /*Promotions*/
   router.get("/event/:id/promotion/new", auth.ensureLoggedIn(), promotion.get.new);
+  router.get("/event/:id/promotion", auth.ensureLoggedIn(), promotion.get.list);
+  router.post("/event/:id/promotion",auth.ensureLoggedIn(),promotion.post.new);
 
   /*Transactions*/
   router.get("/booking/:id", auth.ensureLoggedIn(), transaction.get.booking);
