@@ -68,6 +68,12 @@ module.exports = passport => {
     upload.single("image"),
     event.post.create
   );
+  router.post(
+    "/event/edit",
+    auth.ensureLoggedIn(),
+    upload.single("image"),
+    event.post.edit
+  );
 
   /*Promotions*/
   router.get(
