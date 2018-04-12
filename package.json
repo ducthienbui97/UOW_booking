@@ -27,6 +27,7 @@
     "prettier": "^1.11.1",
     "sequelize": "^4.37.0",
     "sequelize-cli": "^4.0.0",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "stripe": "^5.8.0"
   }
 }
