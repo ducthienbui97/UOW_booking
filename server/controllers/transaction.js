@@ -84,7 +84,7 @@ module.exports = {
       await Promise.all(
         req.body.tickets.map(event => transaction.createTicket(event))
       );
-      return res.redirect("/booking");
+      res.redirect("/booking");
     }
   }
 };

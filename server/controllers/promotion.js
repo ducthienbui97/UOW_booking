@@ -27,7 +27,7 @@ module.exports = {
         }
       }).spread((promotion, created) => {
         if (!created)
-          return res.render("/event/" + req.event.id + "/promotion/new", {
+          res.render("/event/" + req.event.id + "/promotion/new", {
             error: {
               message: "Promotion code " + req.body.code + " is already taken"
             }
