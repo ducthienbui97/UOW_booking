@@ -29,16 +29,21 @@ module.exports = {
     }
   },
   post: {
-    booking: (req, res, next) => {
-      req.user
-        .addBookedEvent(req.body.id, {
-          through: {
-            quantity: req.body.quantity
-          }
-        })
-        .then(() => {
-          res.redirect("/booking");
+    booking: async (req, res, next) => {
+      var event = await models.Event.findById(req.body.id);
+      var promotion = null;
+      if (req.body.promotionCode)
+        promotion = await models.Promotion.findOne({
+          where: { code: req.body.promotionCode }
         });
+
+      await req.user.addBookedEvent(event.get("id"), {
+        through: {
+          quantity: req.body.quantity,
+          total: event.get("price") * req.body.quantity
+        }
+      });
+      res.redirect("/booking");
     }
   }
 };

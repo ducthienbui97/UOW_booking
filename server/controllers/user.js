@@ -1,11 +1,19 @@
 module.exports = {
   get: {
-    login: (req, res) => res.render("user/login"),
+    login: (req, res) =>
+      res.render("user/login", {
+        currentPage: "login",
+        title: "Login"
+      }),
     logout: (req, res) => {
       req.logout();
       req.session.destroy(err => res.redirect("/"));
     },
-    signup: (req, res) => res.render("user/signup")
+    signup: (req, res) =>
+      res.render("user/signup", {
+        currentPage: "signup",
+        title: "Signup"
+      })
   },
   post: {
     signup: passport => {
@@ -16,6 +24,8 @@ module.exports = {
           else if (req.session.returnTo) res.redirect(req.session.returnTo);
           else
             res.render("user/login", {
+              currentPage: "login",
+              title: "Login",
               success: { message: "Successfully created account!" }
             });
         })(req, res, next);

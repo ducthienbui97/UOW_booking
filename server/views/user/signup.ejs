@@ -1,13 +1,13 @@
 <%- include ../head%>
  <form id="signup" name="signup" method="post" action="signup">
         <label for="email">Email Address</label>
-        <input class="text" name="email" type="email" />
+        <input class="text" name="email" type="email" required/>
         <label for="name">Name</label>
-        <input name="name" type="text" />
+        <input name="name" type="text" required/>
         <label for="studentNo">Student Number</label>
         <input name="studentNo" type="text" />
         <label for="password">Password</label>
-        <input name="password" type="password" />
+        <input name="password" type="password" required/>
         <input class="btn" type="submit" value="Sign Up" />
     </form>
 <%-include ../foot%>

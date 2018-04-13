@@ -1,6 +1,5 @@
 <%- include ../head%>
-<form id="event" name="event" method="post" action="/event/edit" enctype="multipart/form-data" >
-    <input hidden name="id" value="<%=event.id%>">
+<form id="event" name="event" method="post" action="/event/<%=event.id%>/edit" enctype="multipart/form-data" >
     <label for="name">Title</label>
     <input name="name" type="text" required value="<%=event.name%>"/> <br/>
     <label for="location">Location</label>

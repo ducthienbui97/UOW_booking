@@ -8,98 +8,39 @@ var event = require("../controllers/event");
 var transaction = require("../controllers/transaction");
 var search = require("../controllers/search");
 var promotion = require("../controllers/promotion");
+var local = require("../config/local");
 
 module.exports = passport => {
   /*Users*/
   router.get("/signup", user.get.signup);
-  router.get(
-    "/login",
-    (req, res, next) => {
-      res.locals.currentPage = "login";
-      res.locals.title = "Login";
-      next();
-    },
-    user.get.login
-  );
+  router.get("/login", user.get.login);
   router.get("/logout", user.get.logout);
-  router.post(
-    "/signup",
-    (req, res, next) => {
-      res.locals.currentPage = "signup";
-      res.locals.title = "Signup";
-      next();
-    },
-    user.post.signup(passport)
-  );
+  router.post("/signup", user.post.signup(passport));
   router.post("/login", user.post.login(passport));
 
   /*Events*/
-  router.get(
-    "/",
-    (req, res, next) => {
-      res.locals.currentPage = "home";
-      next();
-    },
-    event.get.all
-  );
-  router.get(
-    "/event/new",
-    auth.ensureLoggedIn(),
-    (req, res, next) => {
-      res.locals.currentPage = "new-event";
-      next();
-    },
-    event.get.create
-  );
-  router.get(
-    "/event",
-    auth.ensureLoggedIn(),
-    (req, res, next) => {
-      res.locals.currentPage = "event";
-      next();
-    },
-    event.get.ofUser
-  );
+  router.get("/", event.get.all);
+  router.all("/event/:id*", event.getEvent);
   router.get("/event/:id", event.get.single);
-  router.get("/event/:id/edit", auth.ensureLoggedIn(), event.get.edit);
-  router.post(
-    "/event",
-    auth.ensureLoggedIn(),
-    upload.single("image"),
-    event.post.create
-  );
-  router.post(
-    "/event/edit",
-    auth.ensureLoggedIn(),
-    upload.single("image"),
-    event.post.edit
-  );
+  router.all("/event*", auth.ensureLoggedIn());
+  router.all("/event/:id/*", event.authorizationCheck);
+  router.get("/event/new", event.get.create);
+  router.get("/event", event.get.ofUser);
+  router.get("/event/:id/edit", event.get.edit);
+  router.post("/event*", upload.single("image"), event.imageUploader);
+  router.post("/event", event.post.create);
+  router.post("/event/:id/edit", event.post.edit);
 
   /*Promotions*/
-  router.get(
-    "/event/:id/promotion/new",
-    auth.ensureLoggedIn(),
-    promotion.get.new
-  );
-  router.get("/event/:id/promotion", auth.ensureLoggedIn(), promotion.get.list);
-  router.post(
-    "/event/:id/promotion",
-    auth.ensureLoggedIn(),
-    promotion.post.new
-  );
+  router.get("/event/:id/promotion/new", promotion.get.new);
+  router.get("/event/:id/promotion", promotion.get.list);
+  router.post("/event/:id/promotion", promotion.post.new);
 
   /*Transactions*/
-  router.get("/booking/:id", auth.ensureLoggedIn(), transaction.get.booking);
-  router.get(
-    "/booking",
-    auth.ensureLoggedIn(),
-    (req, res, next) => {
-      res.locals.currentPage = "booking";
-      next();
-    },
-    transaction.get.list
-  );
-  router.post("/booking", auth.ensureLoggedIn(), transaction.post.booking);
+  router.all("/booking*", auth.ensureLoggedIn());
+  router.get("/booking/:id", event.getEvent, transaction.get.booking);
+  router.get("/booking", local.setCurrentPage("booking"), transaction.get.list);
+  router.post("/booking", transaction.post.booking);
 
   /*Search*/
   router.get("/search", search.get);

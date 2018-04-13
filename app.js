@@ -32,7 +32,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // add local values
-app.use(local);
+app.use(local.user);
 
 // routes
 app.use("/", routes(passport));

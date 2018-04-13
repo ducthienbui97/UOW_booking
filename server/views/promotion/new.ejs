@@ -1,8 +1,10 @@
 <%- include ../head%>
 <form action="/event/<%=event.id%>/promotion" method="post">
-    <input name="code" placeholder="Code">
+    <input name="code" placeholder="Code" required>
     <input name="isPercentage" type="checkbox">
-    <input name="amount" type="number">
-    <button type="submit">Confirm</button>
+    <input name="amount" type="number" value="0" min="0" step="0.01" required>
+    <input name="expire" type="datetime-local" value="<%=event.start_time.toISOString().slice(0,-1)%>" required>
+    <input name="minSpend" type="number" value="0" min="0" step="0.01" required>
+    <button class="btn" type="submit">Confirm</button>
 </form>
 <%-include ../foot%>
