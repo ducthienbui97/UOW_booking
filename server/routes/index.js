@@ -39,8 +39,8 @@ module.exports = passport => {
   /*Transactions*/
   router.all("/booking*", auth.ensureLoggedIn());
   router.get("/booking/:id", event.getEvent, transaction.get.booking);
-  router.get("/booking", local.setCurrentPage("booking"), transaction.get.list);
-  router.post("/booking", transaction.post.booking);
+  router.get("/booking", transaction.get.list);
+  router.post("/booking/:id", event.getEvent, transaction.post.booking);
 
   /*Search*/
   router.get("/search", search.get);

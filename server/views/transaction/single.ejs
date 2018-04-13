@@ -1,5 +1,5 @@
 Event: <a href="/event/<%=event.id%>"><%= event.name%></a> <br>
 Location: <%= event.location%> <br>
 Time: <%= event.start_time %> <br>
-Number of ticket: <%= event.Transaction.quantity %> <br>
-Total: <%= event.price*event.Transaction.quantity %>
+Total number of tickets: <%= event.Transactions.reduce((total, transaction) => total + transaction.quantity, 0) %> <br>
+Total: <%= event.Transactions.reduce((total,transaction) => total + transaction.total, 0) %>

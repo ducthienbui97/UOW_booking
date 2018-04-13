@@ -30,9 +30,7 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'userId',
             onDelete: 'CASCADE'
         });
-        User.belongsToMany(models.Event,{
-            as: 'bookedEvents',
-            through: models.Transaction,
+        User.hasMany(models.Transaction,{
             foreignKey:'userId',
             onDelete: 'CASCADE'
         })

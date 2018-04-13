@@ -2,9 +2,15 @@
 Number of ticket: <%= tickets%> <br/>
 Price: <%= event.price%> <br/>
 Total: <%= (event.price*tickets).toFixed(2)%> <br/>
-<form action="/booking" method="post">
-    <input name="id" value=<%=event.id%> hidden>
+<form action="/booking/<%=event.id%>" method="post">
     <input name="quantity" value=<%=tickets%> hidden>
+    <%for(var i = 0; i < tickets; i++){%>
+        <input name="tickets[<%=i%>][name]" type="text" >
+        <input name="tickets[<%=i%>][email]" type="email">
+        <input name="tickets[<%=i%>][studentNo]" type="number">
+        <br/>
+    <%}%>
+
     <button type="submit">Confirm</button>
 </form>
 <a href="/event/<%=event.id%>" ><button type="button">Back</button></a>
