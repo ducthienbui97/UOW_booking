@@ -1,7 +1,8 @@
 <%-include ../head%>
 <%events.forEach(event => {%>
     <h2><a href="/event/<%=event.id%>"><%= event.name%></a></h2>
-    <p><%= event.start_time%></p>
+    <p><%= event.start_time.toLocaleString()%></p>
+    <p><%= event.end_time.toLocaleString()%></p>
     <p><%=event.location%></p>
 <%})%>
 <%-include ../foot%>

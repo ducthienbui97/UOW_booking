@@ -2,8 +2,9 @@
 <%promotions.forEach(promo => {%>
     <%=promo.code%> <br>
     <%=promo.amount%> <%=promo.isPercentage?"%":"$"%>
+    <%=promo.expire%>
 <%})%>
 <%if(locals.user && user.id == event.userId){%>
-    <a href="/event/<%=event.id%>/promotion/new%>"><button>Add Promotions</button></a>
+    <a href="/event/<%=event.id%>/promotion/new%>"><button>Add Promotion</button></a>
 <%}%>
 <%-include ../foot%>

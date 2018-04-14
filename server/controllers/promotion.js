@@ -5,7 +5,9 @@ module.exports = {
     new: (req, res, next) =>
       res.render("promotion/new", { event: req.event.get({ plain: true }) }),
     list: async (req, res, next) => {
-      var promotions = await req.event.getPromotions({ order: models.sequelize.col("expire") });
+      var promotions = await req.event.getPromotions({
+        order: models.sequelize.col("expire")
+      });
       res.render("promotion/list", {
         event: req.event.get({ plain: true }),
         promotions: promotions.map(promo => promo.get({ plain: true }))
@@ -26,13 +28,12 @@ module.exports = {
             : req.body.amount
         }
       }).spread((promotion, created) => {
-        if (!created)
-          res.render("/event/" + req.event.id + "/promotion/new", {
-            error: {
-              message: "Promotion code " + req.body.code + " is already taken"
-            }
-          });
-        else res.redirect("/event/" + req.event.id + "/promotion");
+        if (!created) {
+          req.session.error = {
+            message: "Promotion code " + req.body.code + " is already taken"
+          };
+          res.redirect("/event/" + req.event.id + "/promotion/new");
+        } else res.redirect("/event/" + req.event.id + "/promotion");
       });
     }
   }

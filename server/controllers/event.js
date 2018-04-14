@@ -1,7 +1,6 @@
 var models = require("../models");
 const limit = 50;
 
-
 module.exports = {
   get: {
     edit: (req, res) => {

@@ -34,6 +34,8 @@ app.use(passport.session());
 // add utilities values
 app.use(utilities.getUser);
 app.use(utilities.emptyStringToNull);
+app.use(utilities.getError);
+app.use(utilities.getSuccess);
 // routes
 app.use("/", routes(passport));
 

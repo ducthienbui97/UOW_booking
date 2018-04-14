@@ -41,12 +41,10 @@ module.exports = {
         req.event.capacity - occupied
       );
       if (req.body.quantity > allowed) {
-        var creator = await req.event.getUser();
-        return res.render("event/single", {
-          event: req.event.get({ plain: true }),
-          creator: creator.get({ plain: true }),
-          error: { message: "You are only able to get " + allowed + " tickets" }
-        });
+        req.session.error = {
+          message: "You are only able to get " + allowed + " tickets"
+        };
+        return res.redirect("/event/" + req.event.id);
       }
       var transaction = await models.Transaction.build({
         userId: req.user.id,
@@ -58,22 +56,20 @@ module.exports = {
         promotion = await models.Promotion.findOne({
           where: { code: req.body.promotionCode, eventId: req.event.id }
         });
-        if (!promotion)
-          return res.render("transaction/new", {
-            event: req.event.get({ plain: true }),
-            tickets: req.body.quantity,
-            error: { message: "Promotion code not found!" }
-          });
-        else if (total < promotion.minSpend)
-          return res.render("transaction/new", {
-            event: req.event.get({ plain: true }),
-            tickets: req.body.quantity,
-            error: {
-              message:
-                "Min spend of " + promotion.code + " is " + promotion.minSpend
-            }
-          });
-        else {
+        if (!promotion) {
+          req.session.error = { message: "Promotion code not found!" };
+          return res.redirect(
+            "/booking/" + req.event.id + "?count=" + req.body.quantity
+          );
+        } else if (total < promotion.minSpend) {
+          req.session.error = {
+            message:
+              "Min spend of " + promotion.code + " is " + promotion.minSpend
+          };
+          return res.redirect(
+            "/booking/" + req.event.id + "?count=" + req.body.quantity
+          );
+        } else {
           if (promotion.isPercentage)
             transaction.discounted = total * (100 - promotion.amount);
           else transaction.discounted = total - promotion.amount;

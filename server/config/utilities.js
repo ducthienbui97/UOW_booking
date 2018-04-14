@@ -17,6 +17,16 @@ module.exports = {
     res.locals.user = req.user ? req.user.get({ plain: true }) : null;
     next();
   },
+  getError: (req,res,next) => {
+    res.locals.error = req.session.error;
+    delete req.session.error;
+    next();
+  },
+  getSuccess: (req,res,next) =>{
+    res.locals.success = req.session.success;
+    delete req.session.success;
+    next();
+  },
   getEvent: async (req, res, next) => {
     req.event = await models.Event.findById(req.params.id);
     if (!req.event) {
