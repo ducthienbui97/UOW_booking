@@ -1,5 +1,15 @@
-Event: <a href="/event/<%=event.id%>"><%= event.name%></a> <br>
-Location: <%= event.location%> <br>
-Time: <%= event.start_time %> <br>
-Total number of tickets: <%= event.Transactions.reduce((total, transaction) => total + transaction.quantity, 0) %> <br>
-Total: <%= event.Transactions.reduce((total,transaction) => total + transaction.total, 0) %>
+<%- include ../head%>
+Number of ticket: <%= transaction.quantity %> <br>
+Total: <%= transaction.total %> <br>
+Discount: <%= transaction.discounted %> <br>
+<form action="/booking/<%=transaction.eventId%>/transaction/<%=transaction.id%>/edit" method="post">
+<% for(var i = 0; i < transaction.quantity; i++){%>
+    <%var ticket = transaction.Tickets[i]%>
+    <input hidden value="<%=ticket.id%>" name="tickets[<%=i%>][id]">
+    <input value="<%=ticket.name%>" type="text" name="tickets[<%=i%>][name]">
+    <input value="<%=ticket.email%>" type="email" name="tickets[<%=i%>][email]">
+    <input value="<%=ticket.studentNo%>" type="number" name="tickets[<%=i%>][studentNo]">
+<%}%> <br>
+<input type="submit" class="btn" value="Save">
+</form>
+<%-include ../foot%>

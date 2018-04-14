@@ -35,15 +35,6 @@ module.exports = (sequelize, DataTypes) => {
       expire: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: function() {
-          return this.event.start_time;
-        },
-        validate: {
-          isBeforeEvent: function(expire) {
-            if (expire > this.event.start_time)
-              throw new Error("Promotion should end before event start");
-          }
-        }
       },
       minSpend: DataTypes.FLOAT
     },

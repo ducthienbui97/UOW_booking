@@ -23,7 +23,7 @@ module.exports = passport => {
   router.all("/event/:id*", utilities.getEvent);
   router.get("/event/:id", event.get.single);
   router.all("/event*", auth.ensureLoggedIn());
-  router.all("/event/:id/*", utilities.authorizationCheck);
+  router.all("/event/:id/*", utilities.eventAuthorizationCheck);
   router.get("/event", event.get.ofUser);
   router.get("/event/:id/edit", event.get.edit);
   router.post("/event*", upload.single("image"), utilities.imageUploader);
@@ -35,13 +35,19 @@ module.exports = passport => {
   router.get("/event/:id/promotion/new", promotion.get.new);
   router.get("/event/:id/promotion", promotion.get.list);
   router.post("/event/:id/promotion", promotion.post.new);
+  router.post("/event/:id/promotion/edit", promotion.post.edit);
 
   /*Transactions*/
   router.all("/booking*", auth.ensureLoggedIn());
-  router.get("/booking/:id", utilities.getEvent, transaction.get.booking);
+  router.all("/booking/:id*", utilities.getEvent);
+  router.all("/booking/:id/transaction/:transId*", utilities.getTransaction);
+  router.get("/booking/:id", transaction.get.booking);
   router.get("/booking", transaction.get.list);
-  router.post("/booking/:id", utilities.getEvent, transaction.post.booking);
-
+  router.get("/booking/:id/transaction/:transId", transaction.get.single);
+  router.post("/booking/:id", transaction.post.booking);
+  router.post("/booking/:id/transaction/:transId*",utilities.transactionAuthorizationCheck);
+  router.post("/booking/:id/transaction/:transId/edit", transaction.post.edit);
+  router.post("/booking/:id/transaction/:transId/cancel", transaction.post.cancel);
   /*Search*/
   router.get("/search", search.get);
 

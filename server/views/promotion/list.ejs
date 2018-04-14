@@ -1,10 +1,32 @@
 <%- include ../head%>
-<%promotions.forEach(promo => {%>
-    <%=promo.code%> <br>
-    <%=promo.amount%> <%=promo.isPercentage?"%":"$"%>
-    <%=promo.expire%>
-<%})%>
-<%if(locals.user && user.id == event.userId){%>
-    <a href="/event/<%=event.id%>/promotion/new%>"><button>Add Promotion</button></a>
-<%}%>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Code</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Is percentage</th>
+            <th scope="col">Min Spend</th>
+            <th scope="col">Expire Date</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <%promotions.forEach(promo => {%>
+        <tr>
+            <form method="post" action="/event/<%=event.id%>/promotion/edit">
+                <input name="id" hidden value="<%=promo.id%>">
+                <td><input name="code" value="<%=promo.code%>" type="text" required style="border:0"> </td>
+                <td><input name="amount "value="<%=promo.amount%>" type="number" required min="0" style="border:0"></td>
+                <td><input name="isPercentage" value="<%=promo.isPercentage%>" type="checkbox"> </td>
+                <td><input name="minSpend" value="<%=promo.minSpend%>" type="number" required style="border:0"></td>
+                <td><input name="expire" value="<%=promo.expire.toISOString().slice(0,-1)%>"
+                           type="datetime-local" required style="border:0"> </td>
+                <td><input type="submit" class="btn" value="Save"> </td>
+            </form>
+
+        </tr>
+        <%})%>
+    </tbody>
+</table>
+<a href="/event/<%=event.id%>/promotion/new%>"><button>Add Promotion</button></a>
 <%-include ../foot%>

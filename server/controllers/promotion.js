@@ -16,6 +16,7 @@ module.exports = {
   },
   post: {
     new: (req, res, next) => {
+      console.log(req.body);
       models.Promotion.findOrCreate({
         where: {
           eventId: req.event.id,
@@ -23,9 +24,9 @@ module.exports = {
         },
         defaults: {
           isPercentage: req.body.isPercentage,
-          amount: req.body.isPercentage
-            ? Math.min(100, req.body.amount)
-            : req.body.amount
+          amount: req.body.amount,
+          minSpend: req.body.minSpend,
+          expire: req.body.expire
         }
       }).spread((promotion, created) => {
         if (!created) {
@@ -35,6 +36,11 @@ module.exports = {
           res.redirect("/event/" + req.event.id + "/promotion/new");
         } else res.redirect("/event/" + req.event.id + "/promotion");
       });
+    },
+    edit: (req, res, next) => {
+      req.body.eventId = req.event.id;
+      models.Promotion.update(req.body, { where: { id: req.body.id } });
+      res.redirect("/event/" + req.event.id + "/promotion");
     }
   }
 };

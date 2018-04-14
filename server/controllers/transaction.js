@@ -23,6 +23,11 @@ module.exports = {
           events: events.map(event => event.get({ plain: true }))
         });
       });
+    },
+    single: (req, res, next) => {
+      res.render("transaction/single", {
+        transaction: req.transaction.get({ plain: true })
+      });
     }
   },
   post: {
@@ -81,6 +86,16 @@ module.exports = {
         req.body.tickets.map(event => transaction.createTicket(event))
       );
       res.redirect("/booking");
+    },
+    edit: async (req, res, next) => {
+      await Promise.all(
+        req.body.tickets.map(ticket => {
+          models.Ticket.update(ticket, { where: { id: ticket.id } });
+        })
+      );
+      res.redirect(
+        "/booking/" + req.event.id + "/transaction/" + req.transaction.id
+      );
     }
   }
 };

@@ -17,12 +17,12 @@ module.exports = {
     res.locals.user = req.user ? req.user.get({ plain: true }) : null;
     next();
   },
-  getError: (req,res,next) => {
+  getError: (req, res, next) => {
     res.locals.error = req.session.error;
     delete req.session.error;
     next();
   },
-  getSuccess: (req,res,next) =>{
+  getSuccess: (req, res, next) => {
     res.locals.success = req.session.success;
     delete req.session.success;
     next();
@@ -35,7 +35,25 @@ module.exports = {
       next(err);
     } else next();
   },
-  authorizationCheck: (req, res, next) => {
+  getTransaction: async (req, res, next) => {
+    req.transaction = await models.Transaction.findOne({
+      where: { id: req.params.transId },
+      include: [{ model: models.Ticket }]
+    });
+    if (!req.transaction) {
+      var err = new Error("Transaction Not Found");
+      err.status = 404;
+      next(err);
+    } else next();
+  },
+  transactionAuthorizationCheck: (req, res, next) => {
+    if (req.transaction.userId != req.user.id) {
+      var error = new Error("Forbidden");
+      error.status = 403;
+      next(error);
+    } else next();
+  },
+  eventAuthorizationCheck: (req, res, next) => {
     if (req.event.userId != req.user.id) {
       var error = new Error("Forbidden");
       error.status = 403;

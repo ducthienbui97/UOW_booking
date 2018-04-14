@@ -1,6 +1,14 @@
 <%- include ../head%>
 <h2>Booked events:</h2>
 <%events.forEach(event => {%>
-    <%- include('./single',{event:event}) %>
+    Event: <a href="/event/<%=event.id%>"><%= event.name%></a> <br>
+    Location: <%= event.location%> <br>
+    Time: <%= event.start_time %> <br>
+    Transactions: <br>
+    <%event.Transactions.forEach(transaction => {%>
+        Transaction id: <a href="/booking/<%=event.id%>/transaction/<%=transaction.id%>"><%=transaction.id%> </a>
+        Tickets: <%= transaction.quantity%> <br>
+        Total: <%= transaction.total %> <br>
+    <%})%>
 <%})%>
 <%-include ../foot%>
