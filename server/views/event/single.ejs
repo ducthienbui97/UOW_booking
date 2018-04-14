@@ -17,6 +17,9 @@
     <button type="submit">Submit</button>
 </form>
 <%if(locals.user && user.id == event.userId){%>
-    <a href="/event/<%=event.id%>/promotion%>"><button>Manage Promotions</button></a>
+<form action="/event/<%=event.id%>/cancel" method="post">
+    <input type="submit" value="Cancel Event" class="btn">
+</form>
+<a href="/event/<%=event.id%>/promotion%>"><button>Manage Promotions</button></a>
 <%}%>
 <%-include ../foot%>

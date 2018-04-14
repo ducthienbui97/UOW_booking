@@ -6,11 +6,11 @@ Discount: <%= transaction.discounted %> <br>
 <% for(var i = 0; i < transaction.quantity; i++){%>
     <%var ticket = transaction.Tickets[i]%>
     <input hidden value="<%=ticket.id%>" name="tickets[<%=i%>][id]">
-    <input value="<%=ticket.name%>" type="text" name="tickets[<%=i%>][name]" disabled=<%=transaction.cancelled%>>
-    <input value="<%=ticket.email%>" type="email" name="tickets[<%=i%>][email]" disabled=<%=transaction.cancelled%>>
-    <input value="<%=ticket.studentNo%>" type="number" name="tickets[<%=i%>][studentNo]" disabled=<%=transaction.cancelled%>>
+    <input value="<%=ticket.name%>" type="text" name="tickets[<%=i%>][name]" disable="<%=transaction.cancelled%>">
+    <input value="<%=ticket.email%>" type="email" name="tickets[<%=i%>][email]" disable="<%=transaction.cancelled%>">
+    <input value="<%=ticket.studentNo%>" type="number" name="tickets[<%=i%>][studentNo]" disable="<%=transaction.cancelled%>">
 <%}%> <br>
-<input type="submit" class="btn" value="Save" disabled=<%=transaction.cancelled%>>
+<input type="submit" class="btn" value="Save" disable="<%=transaction.cancelled%>">
 </form>
 <form action="/booking/<%=transaction.eventId%>/transaction/<%=transaction.id%>/cancel" method="post">
     <input type="submit" class="btn" value="Cancel">

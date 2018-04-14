@@ -71,6 +71,14 @@ module.exports = {
     edit: async (req, res, next) => {
       await req.event.update(req.body);
       res.redirect("/event/" + req.event.id);
+    },
+    cancel: async (req, res, next) => {
+      await req.event.update({ cancelled: true });
+      await models.Transaction.update(
+        { cancelled: true },
+        { where: { eventId: req.event.id } }
+      );
+      res.redirect("/event/" + req.event.id);
     }
   }
 };

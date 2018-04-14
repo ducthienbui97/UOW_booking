@@ -29,6 +29,7 @@ module.exports = passport => {
   router.post("/event*", upload.single("image"), utilities.imageUploader);
   router.post("/event", event.post.create);
   router.post("/event/:id/edit", event.post.edit);
+  router.post("/event/:id/cancel", event.post.cancel);
   router.get("/new/event", auth.ensureLoggedIn(), event.get.create);
 
   /*Promotions*/
@@ -45,9 +46,16 @@ module.exports = passport => {
   router.get("/booking", transaction.get.list);
   router.get("/booking/:id/transaction/:transId", transaction.get.single);
   router.post("/booking/:id", transaction.post.booking);
-  router.post("/booking/:id/transaction/:transId*",utilities.transactionAuthorizationCheck);
+  router.post(
+    "/booking/:id/transaction/:transId*",
+    utilities.transactionAuthorizationCheck
+  );
   router.post("/booking/:id/transaction/:transId/edit", transaction.post.edit);
-  router.post("/booking/:id/transaction/:transId/cancel", transaction.post.cancel);
+  router.post(
+    "/booking/:id/transaction/:transId/cancel",
+    transaction.post.cancel
+  );
+
   /*Search*/
   router.get("/search", search.get);
 
