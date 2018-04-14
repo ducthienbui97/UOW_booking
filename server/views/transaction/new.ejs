@@ -10,7 +10,6 @@ Total: <%= (event.price*tickets).toFixed(2)%> <br/>
         <input name="tickets[<%=i%>][studentNo]" type="number">
         <br/>
     <%}%>
-
     <button type="submit">Confirm</button>
 </form>
 <a href="/event/<%=event.id%>" ><button type="button">Back</button></a>

@@ -96,6 +96,12 @@ module.exports = {
       res.redirect(
         "/booking/" + req.event.id + "/transaction/" + req.transaction.id
       );
+    },
+    cancel: async (req, res, next) => {
+      await req.transaction.update({ cancel: true });
+      res.redirect(
+        "/booking/" + req.event.id + "/transaction/" + req.transaction.id
+      );
     }
   }
 };
