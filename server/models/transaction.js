@@ -32,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
           isFloat: true,
           min: 0
         }
+      },
+      cancelled:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
       }
     },
     {}

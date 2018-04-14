@@ -20,20 +20,20 @@ module.exports = (sequelize, DataTypes) => {
       price: {
         type: DataTypes.FLOAT,
         allowNull: false,
-        validate:{
+        validate: {
           isFloat: true,
           min: 0
         }
       },
-      capacity:{
+      capacity: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        validate:{
+        validate: {
           isInt: true,
           min: 1
         }
       },
-      location:{
+      location: {
         type: DataTypes.STRING,
         allowNull: false
       },
@@ -51,12 +51,16 @@ module.exports = (sequelize, DataTypes) => {
       end_time: {
         type: DataTypes.DATE,
         validate: {
-          isAfter: function(end){
+          isAfter: function(end) {
             if (this.start_time >= end) {
               throw new Error("End time must be after start time");
             }
           }
         }
+      },
+      cancelled: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
       },
       max: {
         type: DataTypes.INTEGER,

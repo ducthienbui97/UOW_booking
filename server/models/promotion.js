@@ -24,7 +24,13 @@ module.exports = (sequelize, DataTypes) => {
       amount: {
         type: DataTypes.FLOAT,
         allowNull: false,
-        defaultValue: 0
+        defaultValue: 0,
+        validate: {
+          isLessThan100pc: function(value) {
+            if (this.isPercentage && value > 100)
+              throw new Error("Maximum discount is 100%");
+          }
+        }
       },
       expire: {
         type: DataTypes.DATE,
@@ -34,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         validate: {
           isBeforeEvent: function(expire) {
-            if(expire > this.event.start_time)
+            if (expire > this.event.start_time)
               throw new Error("Promotion should end before event start");
           }
         }

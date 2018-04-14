@@ -17,16 +17,20 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING
       },
-      total:{
+      total: {
         allowNull: false,
         type: Sequelize.FLOAT
       },
-      discounted:{
-        allowNull:false,
+      discounted: {
+        allowNull: false,
         type: Sequelize.FLOAT
       },
-      stripeId:{
+      stripeId: {
         type: Sequelize.STRING
+      },
+      cancelled: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,
