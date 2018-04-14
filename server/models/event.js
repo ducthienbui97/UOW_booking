@@ -21,7 +21,16 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       start_time: DataTypes.DATE,
-      end_time: DataTypes.DATE,
+      end_time: {
+        type: DataTypes.DATE,
+        validate: {
+          isAfter: function(end) {
+            if (this.start_time >= end) {
+              throw new Error("End time must be after start time");
+            }
+          }
+        }
+      },
       max: {
         type: DataTypes.INTEGER,
         validate: {
