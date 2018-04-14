@@ -8,7 +8,7 @@ var bodyParser = require("body-parser");
 var passport = require("./server/config/passport");
 var session = require("express-session");
 var routes = require("./server/routes");
-var local = require("./server/config/local.js");
+var utilities = require("./server/config/utilities.js");
 var app = express();
 
 // view engine setup
@@ -31,9 +31,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// add local values
-app.use(local.user);
-
+// add utilities values
+app.use(utilities.getUser);
+app.use(utilities.emptyStringToNull);
 // routes
 app.use("/", routes(passport));
 

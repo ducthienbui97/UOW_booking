@@ -12,17 +12,27 @@ module.exports = (sequelize, DataTypes) => {
       quantity: {
         type: DataTypes.INTEGER,
         validate: {
+          isInt: true,
           min: 1
         }
       },
       stripeId: DataTypes.STRING,
       promotionCode: DataTypes.STRING,
-      total: DataTypes.FLOAT,
+      total: {
+        type: DataTypes.FLOAT,
+        validate: {
+          isFloat: true,
+          min: 0
+        }
+      },
       discounted: {
-        type:DataTypes.FLOAT,
-        defaultValue: 0
+        type: DataTypes.FLOAT,
+        defaultValue: 0,
+        validate: {
+          isFloat: true,
+          min: 0
+        }
       }
-
     },
     {}
   );
@@ -32,19 +42,18 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "promotionId",
       onDelete: "SET NULL"
     });
-    Transaction.belongsTo(models.Event,{
-      foreignKey:"eventId",
+    Transaction.belongsTo(models.Event, {
+      foreignKey: "eventId",
       onDelete: "CASCADE"
     });
-    Transaction.belongsTo(models.User,{
-      foreignKey:"userId",
-      onDelete:"CASCADE",
+    Transaction.belongsTo(models.User, {
+      foreignKey: "userId",
+      onDelete: "CASCADE"
     });
     Transaction.hasMany(models.Ticket, {
       foreignKey: "transactionId",
       onDelete: "CASCADE"
     });
-
   };
   return Transaction;
 };

@@ -5,9 +5,9 @@ module.exports = {
     new: (req, res, next) =>
       res.render("promotion/new", { event: req.event.get({ plain: true }) }),
     list: async (req, res, next) => {
-      var promotions = await event.getPromotions({ order: expire });
+      var promotions = await req.event.getPromotions({ order: models.sequelize.col("expire") });
       res.render("promotion/list", {
-        event: event.get({ plain: true }),
+        event: req.event.get({ plain: true }),
         promotions: promotions.map(promo => promo.get({ plain: true }))
       });
     }

@@ -8,7 +8,7 @@ var event = require("../controllers/event");
 var transaction = require("../controllers/transaction");
 var search = require("../controllers/search");
 var promotion = require("../controllers/promotion");
-var local = require("../config/local");
+var utilities = require("../config/utilities");
 
 module.exports = passport => {
   /*Users*/
@@ -20,16 +20,16 @@ module.exports = passport => {
 
   /*Events*/
   router.get("/", event.get.all);
-  router.all("/event/:id*", event.getEvent);
+  router.all("/event/:id*", utilities.getEvent);
   router.get("/event/:id", event.get.single);
   router.all("/event*", auth.ensureLoggedIn());
-  router.all("/event/:id/*", event.authorizationCheck);
-  router.get("/event/new", event.get.create);
+  router.all("/event/:id/*", utilities.authorizationCheck);
   router.get("/event", event.get.ofUser);
   router.get("/event/:id/edit", event.get.edit);
-  router.post("/event*", upload.single("image"), event.imageUploader);
+  router.post("/event*", upload.single("image"), utilities.imageUploader);
   router.post("/event", event.post.create);
   router.post("/event/:id/edit", event.post.edit);
+  router.get("/new/event", auth.ensureLoggedIn(), event.get.create);
 
   /*Promotions*/
   router.get("/event/:id/promotion/new", promotion.get.new);
@@ -38,9 +38,9 @@ module.exports = passport => {
 
   /*Transactions*/
   router.all("/booking*", auth.ensureLoggedIn());
-  router.get("/booking/:id", event.getEvent, transaction.get.booking);
+  router.get("/booking/:id", utilities.getEvent, transaction.get.booking);
   router.get("/booking", transaction.get.list);
-  router.post("/booking/:id", event.getEvent, transaction.post.booking);
+  router.post("/booking/:id", utilities.getEvent, transaction.post.booking);
 
   /*Search*/
   router.get("/search", search.get);

@@ -10,8 +10,18 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4
       },
       name: DataTypes.STRING,
-      email: DataTypes.STRING,
-      studentNo: DataTypes.STRING
+      email: {
+        type:DataTypes.STRING,
+        validate:{
+          isEmail: true
+        }
+      },
+      studentNo: {
+        type:DataTypes.STRING,
+        validate:{
+          isNumeric: true
+        }
+      }
     },
     {}
   );

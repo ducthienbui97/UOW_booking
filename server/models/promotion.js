@@ -9,11 +9,37 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4
       },
-      code: DataTypes.STRING,
-      isPercentage: DataTypes.BOOLEAN,
-      amount: DataTypes.FLOAT,
-      expire: DataTypes.DATE,
-      minSpend: DataTypes.FLOAT,
+      code: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isAlphanumeric: true
+        }
+      },
+      isPercentage: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      },
+      amount: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 0
+      },
+      expire: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: function() {
+          return this.event.start_time;
+        },
+        validate: {
+          isBeforeEvent: function(expire) {
+            if(expire > this.event.start_time)
+              throw new Error("Promotion should end before event start");
+          }
+        }
+      },
+      minSpend: DataTypes.FLOAT
     },
     {}
   );

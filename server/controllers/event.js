@@ -1,36 +1,8 @@
 var models = require("../models");
-var axios = require("axios");
 const limit = 50;
-const imgurHeaders = {
-  Authorization: "Client-ID " + process.env.IMGUR
-};
+
 
 module.exports = {
-  getEvent: async (req, res, next) => {
-    req.event = await models.Event.findById(req.params.id);
-    if (!req.event) {
-      var err = new Error("Event Not Found");
-      err.status = 404;
-      next(err);
-    } else next();
-  },
-  authorizationCheck: (req, res, next) => {
-    if (req.event.userId != req.user.id) {
-      var error = new Error("Forbidden");
-      error.status = 403;
-      next(error);
-    } else next();
-  },
-  imageUploader: async (req, res, next) => {
-    if (req.file) {
-      req.body.imageURL = (await axios.post(
-        "https://api.imgur.com/3/image",
-        { image: req.file.buffer.toString("base64") },
-        { headers: imgurHeaders }
-      )).data.data.link;
-    }
-    next();
-  },
   get: {
     edit: (req, res) => {
       res.render("event/edit", {
@@ -67,7 +39,7 @@ module.exports = {
     ofUser: async (req, res, next) => {
       var pages = req.query.pages ? req.query.pages : 1;
       var offset = (pages - 1) * limit;
-      var events = req.user.getEvents({
+      var events = await req.user.getEvents({
         where: {
           start_time: {
             [models.sequelize.Op.gt]: models.sequelize.literal(
@@ -95,8 +67,7 @@ module.exports = {
   },
   post: {
     create: (req, res) => {
-      req.user.createEvent(req.body);
-      res.redirect("/");
+      req.user.createEvent(req.body).then(() => res.redirect("/"));
     },
     edit: async (req, res, next) => {
       await req.event.update(req.body);

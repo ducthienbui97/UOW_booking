@@ -9,22 +9,49 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4
       },
-      name: DataTypes.STRING,
-      description: DataTypes.TEXT,
-      price: DataTypes.FLOAT,
-      capacity: DataTypes.INTEGER,
-      location: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: false
+      },
+      price: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate:{
+          isFloat: true,
+          min: 0
+        }
+      },
+      capacity:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate:{
+          isInt: true,
+          min: 1
+        }
+      },
+      location:{
+        type: DataTypes.STRING,
+        allowNull: false
+      },
       imageURL: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
           isUrl: true
         }
       },
-      start_time: DataTypes.DATE,
+      start_time: {
+        type: DataTypes.DATE,
+        allowNull: false
+      },
       end_time: {
         type: DataTypes.DATE,
         validate: {
-          isAfter: function(end) {
+          isAfter: function(end){
             if (this.start_time >= end) {
               throw new Error("End time must be after start time");
             }
