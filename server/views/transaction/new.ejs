@@ -1,16 +1,26 @@
 <%- include ../head%>
-Number of ticket: <%= tickets%> <br/>
-Price: <%= event.price%> <br/>
-Total: <%= (event.price*tickets).toFixed(2)%> <br/>
+Number of ticket: <%= tickets%> <br>
+Price: <%= event.price%> <br>
+Total: <%= total.toFixed(2)%> <br>
+Discount: <%= discount.toFixed(2) %> <br>
+Promotion Code: <%= code %> <br>
+<form action="/booking/<%=event.id%>" method="get">
+    <input name="count" value="<%=tickets%>" hidden>
+    <input name="promotion" value="<%= code %>">
+    <input class="btn" type="submit" value="Set Promotion Code">
+</form>
 <form action="/booking/<%=event.id%>" method="post">
     <input name="quantity" value=<%=tickets%> hidden>
+    <input name="promotionCode" value="<%=code%>" hidden>
     <%for(var i = 0; i < tickets; i++){%>
         <input name="tickets[<%=i%>][name]" type="text" >
         <input name="tickets[<%=i%>][email]" type="email">
         <input name="tickets[<%=i%>][studentNo]" type="number">
         <br/>
     <%}%>
-    <button type="submit">Confirm</button>
+    
+    <input type="submit" value="Book"/>
+
 </form>
 <a href="/event/<%=event.id%>" ><button type="button">Back</button></a>
 <%-include ../foot%>

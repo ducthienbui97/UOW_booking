@@ -13,6 +13,10 @@ function emptyStringToNull(object) {
   return object;
 }
 module.exports = {
+  getPublicKey: (req,res,next) =>{
+    res.locals.publicKey = process.env.PUBLIC_KEY;
+    next();
+  },
   getUser: (req, res, next) => {
     res.locals.user = req.user ? req.user.get({ plain: true }) : null;
     next();

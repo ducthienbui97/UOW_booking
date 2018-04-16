@@ -2,11 +2,56 @@ var models = require("../models");
 
 module.exports = {
   get: {
-    booking: (req, res, next) => {
+    booking: async (req, res, next) => {
       var tickets = req.query.count ? req.query.count : 1;
+      var promotion = null;
+      var price = req.event.price;
+      var total = price * tickets;
+      var discount = 0;
+      var code = "";
+
+      if (req.query.promotion) {
+        promotion = await models.Promotion.findOne({
+          where: {
+            eventId: req.event.id,
+            code: req.query.promotion
+          }
+        });
+        if (promotion) {
+          code = promotion.code;
+          if (total < promotion.minSpend) {
+            res.locals.error = {
+              message: "Min spend of " + code + " is " + promotion.minSpend
+            };
+          } else if (promotion.expire < Date.now()) {
+            res.locals.error = {
+              message: "Promotion code expired"
+            };
+          } else {
+            if (promotion.isPercentage) {
+              discount = total * promotion.amount;
+            } else discount = promotion.amount;
+            discount = Math.min(discount, total);
+            res.locals.success = {
+              message:
+                "Saved " + discount + " using " + code + " promotion code"
+            };
+          }
+        } else {
+          res.locals.error = {
+            message: "Promotion code not found"
+          };
+        }
+      }
+
       return res.render("transaction/new", {
         event: req.event.get({ plain: true }),
-        tickets
+        tickets,
+        promotion,
+        discount,
+        total,
+        price,
+        code
       });
     },
     list: (req, res, next) => {
@@ -24,7 +69,7 @@ module.exports = {
         });
       });
     },
-    single: (req, res, next) => {
+    single: (req, res) => {
       res.render("transaction/single", {
         transaction: req.transaction.get({ plain: true })
       });
@@ -34,7 +79,6 @@ module.exports = {
     booking: async (req, res, next) => {
       var promotion = null;
       var total = req.event.price * req.body.quantity;
-      var discount = 0;
       var booked = await models.Transaction.sum("quantity", {
         where: { eventId: req.event.id, userId: req.user.id }
       });
@@ -66,19 +110,29 @@ module.exports = {
           return res.redirect(
             "/booking/" + req.event.id + "?count=" + req.body.quantity
           );
-        } else if (total < promotion.minSpend) {
-          req.session.error = {
-            message:
-              "Min spend of " + promotion.code + " is " + promotion.minSpend
-          };
-          return res.redirect(
-            "/booking/" + req.event.id + "?count=" + req.body.quantity
-          );
         } else {
-          if (promotion.isPercentage)
-            transaction.discounted = total * (100 - promotion.amount);
-          else transaction.discounted = total - promotion.amount;
-          transaction.promotionCode = req.body.promotionCode;
+          if (total < promotion.minSpend) {
+            req.session.error = {
+              message:
+                "Min spend of " + promotion.code + " is " + promotion.minSpend
+            };
+            return res.redirect(
+              "/booking/" + req.event.id + "?count=" + req.body.quantity
+            );
+          } else if (Date.now() > promotion.expire) {
+            res.session.error = {
+              message: "Promotion code expired"
+            };
+            return res.redirect(
+              "/booking/" + req.event.id + "?count=" + req.body.quantity
+            );
+          } else {
+            if (promotion.isPercentage)
+              transaction.discounted = total * promotion.amount;
+            else transaction.discounted = promotion.amount;
+            transaction.discounted = Math.min(transaction.discounted, total);
+            transaction.promotionCode = req.body.promotionCode;
+          }
         }
       }
       transaction = await transaction.save();
