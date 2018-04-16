@@ -1,5 +1,5 @@
 var models = require("../models");
-
+var stripe = require("stripe")(process.env.PRIVATE_KEY);
 module.exports = {
   get: {
     booking: async (req, res, next) => {
@@ -134,6 +134,14 @@ module.exports = {
             transaction.promotionCode = req.body.promotionCode;
           }
         }
+      }
+      if(transaction.discounted < transaction.total){
+        var charge = await stripe.charges.create({
+          amount: Math.round((transaction.total -  transaction.discounted)*100),
+          currency: "AUD",
+          source: req.body.stripeToken
+        });
+        transaction.stripeId = charge.id
       }
       transaction = await transaction.save();
       await Promise.all(

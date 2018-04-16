@@ -32,6 +32,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // add utilities values
+app.use(utilities.getPublicKey);
 app.use(utilities.getUser);
 app.use(utilities.emptyStringToNull);
 app.use(utilities.getError);

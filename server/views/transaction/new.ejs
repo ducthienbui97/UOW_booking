@@ -18,9 +18,25 @@ Promotion Code: <%= code %> <br>
         <input name="tickets[<%=i%>][studentNo]" type="number">
         <br/>
     <%}%>
-    
-    <input type="submit" value="Book"/>
-
+    <%if(total > discount){%>
+        <input type="submit" value="Book" class="stripe-button"/>
+    <%} else {%>
+        <script
+            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="<%=locals.publicKey%>"
+            data-amount="<%=Math.round((total - discount)*100)%>"
+            data-name="UOW Booking"
+            data-description="<%= event.name%>"
+            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+            data-locale="auto"
+            data-zip-code=true
+            data-email="<%=user.email%>"
+            data-currency="AUD"
+            data-panel-label="Process Payment"
+            data-label="Confirm"
+            data-allow-remember-me=true>
+        </script>
+    <%}%>
 </form>
 <a href="/event/<%=event.id%>" ><button type="button">Back</button></a>
 <%-include ../foot%>
