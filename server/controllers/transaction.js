@@ -1,5 +1,28 @@
 var models = require("../models");
 var stripe = require("stripe")(process.env.PRIVATE_KEY);
+var getPromotion = async (req, errorWriter, promotionCode, total) => {
+  var promotion = await models.Promotion.findOne({
+    where: { code: promotionCode, eventId: req.event.id }
+  });
+  if (!promotion) {
+    errorWriter.error = { message: "Promotion code not found!" };
+    return null;
+  }
+  if (total < promotion.minSpend) {
+    errorWriter.error = {
+      message: "Min spend of " + promotion.code + " is " + promotion.minSpend
+    };
+    return null;
+  }
+  if (Date.now() > promotion.expire) {
+    errorWriter.error = {
+      message: "Promotion code expired"
+    };
+    return null;
+  }
+
+  return promotion;
+};
 module.exports = {
   get: {
     booking: async (req, res, next) => {
@@ -11,39 +34,17 @@ module.exports = {
       var code = "";
 
       if (req.query.promotion) {
-        promotion = await models.Promotion.findOne({
-          where: {
-            eventId: req.event.id,
-            code: req.query.promotion
-          }
-        });
+        promotion = getPromotion(req, res.locals, req.query.promotion, total);
         if (promotion) {
           code = promotion.code;
-          if (total < promotion.minSpend) {
-            res.locals.error = {
-              message: "Min spend of " + code + " is " + promotion.minSpend
-            };
-          } else if (promotion.expire < Date.now()) {
-            res.locals.error = {
-              message: "Promotion code expired"
-            };
-          } else {
-            if (promotion.isPercentage) {
-              discount = total * promotion.amount;
-            } else discount = promotion.amount;
-            discount = Math.min(discount, total);
-            res.locals.success = {
-              message:
-                "Saved " + discount + " using " + code + " promotion code"
-            };
-          }
-        } else {
-          res.locals.error = {
-            message: "Promotion code not found"
+          if (promotion.isPercentage) discount = total * promotion.amount;
+          else discount = promotion.amount;
+          discount = Math.min(discount, total);
+          res.locals.success = {
+            message: "Saved " + discount + " using " + code + " promotion code"
           };
         }
       }
-
       return res.render("transaction/new", {
         event: req.event.get({ plain: true }),
         tickets,
@@ -102,46 +103,31 @@ module.exports = {
         total
       });
       if (req.body.promotionCode) {
-        promotion = await models.Promotion.findOne({
-          where: { code: req.body.promotionCode, eventId: req.event.id }
-        });
-        if (!promotion) {
-          req.session.error = { message: "Promotion code not found!" };
+        promotion = await getPromotion(
+          req,
+          req.session,
+          req.body.promotionCode,
+          total
+        );
+        if (!promotion)
           return res.redirect(
             "/booking/" + req.event.id + "?count=" + req.body.quantity
           );
-        } else {
-          if (total < promotion.minSpend) {
-            req.session.error = {
-              message:
-                "Min spend of " + promotion.code + " is " + promotion.minSpend
-            };
-            return res.redirect(
-              "/booking/" + req.event.id + "?count=" + req.body.quantity
-            );
-          } else if (Date.now() > promotion.expire) {
-            res.session.error = {
-              message: "Promotion code expired"
-            };
-            return res.redirect(
-              "/booking/" + req.event.id + "?count=" + req.body.quantity
-            );
-          } else {
-            if (promotion.isPercentage)
-              transaction.discounted = total * promotion.amount;
-            else transaction.discounted = promotion.amount;
-            transaction.discounted = Math.min(transaction.discounted, total);
-            transaction.promotionCode = req.body.promotionCode;
-          }
-        }
+        if (promotion.isPercentage)
+          transaction.discounted = total * promotion.amount;
+        else transaction.discounted = promotion.amount;
+        transaction.discounted = Math.min(transaction.discounted, total);
+        transaction.promotionCode = req.body.promotionCode;
       }
-      if(transaction.discounted < transaction.total){
+      if (transaction.discounted < transaction.total) {
         var charge = await stripe.charges.create({
-          amount: Math.round((transaction.total -  transaction.discounted)*100),
+          amount: Math.round(
+            (transaction.total - transaction.discounted) * 100
+          ),
           currency: "AUD",
           source: req.body.stripeToken
         });
-        transaction.stripeId = charge.id
+        transaction.stripeId = charge.id;
       }
       transaction = await transaction.save();
       await Promise.all(
