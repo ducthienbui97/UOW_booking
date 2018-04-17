@@ -1,7 +1,13 @@
 <%- include ../head%>
 
 <h2><%= event.name%> by <%= creator.name%></h2>
-<img src="<%=event.imageURL%>">
+<img src="<%=event.imageURL%>"> <br>
+
+<%if(locals.user && user.id == event.userId){%>
+<a href="/event/<%=event.id%>/promotion%>"><button class="btn">Manage Promotions</button></a>
+<a href="/event/<%=event.id%>/transactions%>"><button class="btn">Manage Transactions</button></a>
+<%}%>
+
 <p>Start Time: <%= event.start_time.toLocaleString() %></p>
 <p>End Time: <%= event.end_time.toLocaleString() %></p>
 <p>Location: <%= event.location %></p>
@@ -14,12 +20,12 @@
         <option value=<%=i%> ><%=i%></option>
         <%}%>
     </select>
-    <button type="submit">Submit</button>
+    <button type="submit" class="btn">Submit</button>
 </form>
 <%if(locals.user && user.id == event.userId){%>
-<form action="/event/<%=event.id%>/cancel" method="post">
-    <input type="submit" value="Cancel Event" class="btn">
+<form action="/event/<%=event.id%>/cancel" method="post" class="form-inline">
+    <input type="submit" value="Cancel Event" class="btn btn-danger">
 </form>
-<a href="/event/<%=event.id%>/promotion%>"><button>Manage Promotions</button></a>
 <%}%>
+
 <%-include ../foot%>

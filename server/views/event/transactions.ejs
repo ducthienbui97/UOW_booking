@@ -1,0 +1,28 @@
+<%- include ../head%>
+Total ticket booked: <%=total%>/<%=max%> <br>
+Total money received: <%=fund%> <br>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Time</th>
+        <th scope="col">Number of ticket</th>
+        <th scope="col">Price</th>
+        <th scope="col">Discounted</th>
+        <th scope="col">Promotion Code</th>
+        <th scope="col">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <%transactions.forEach(transaction => {%>
+    <tr>
+       <td><%=transaction.createdAt.toISOString()%></td>
+       <td><%=transaction.quantity%></td>
+       <td><%=transaction.total%></td>
+       <td><%=transaction.discounted%></td>
+       <td><%=transaction.promotionCode%></td>
+       <td><%=transaction.cancelled?"Cancelled":""%></td>
+    </tr>
+    <%})%>
+    </tbody>
+</table>
+<%-include ../foot%>

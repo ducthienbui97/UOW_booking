@@ -31,7 +31,7 @@ module.exports = passport => {
   router.post("/event/:id/edit", event.post.edit);
   router.post("/event/:id/cancel", event.post.cancel);
   router.get("/new/event", auth.ensureLoggedIn(), event.get.create);
-
+  router.get("/event/:id/transactions", event.get.transactions);
   /*Promotions*/
   router.get("/event/:id/promotion/new", promotion.get.new);
   router.get("/event/:id/promotion", promotion.get.list);

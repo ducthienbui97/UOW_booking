@@ -18,11 +18,11 @@ Promotion Code: <%= code %> <br>
         <input name="tickets[<%=i%>][studentNo]" type="number">
         <br/>
     <%}%>
-    <%if(total > discount){%>
-        <input type="submit" value="Book" class="stripe-button"/>
+    <%if(total <= discount){%>
+        <input type="submit" value="Confirm" class="btn stripe-button"/>
     <%} else {%>
         <script
-            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            src="https://checkout.stripe.com/checkout.js" class="btn stripe-button"
             data-key="<%=locals.publicKey%>"
             data-amount="<%=Math.round((total - discount)*100)%>"
             data-name="UOW Booking"
@@ -32,7 +32,7 @@ Promotion Code: <%= code %> <br>
             data-zip-code=true
             data-email="<%=user.email%>"
             data-currency="AUD"
-            data-panel-label="Process Payment"
+            data-panel-label="Pay"
             data-label="Confirm"
             data-allow-remember-me=true>
         </script>

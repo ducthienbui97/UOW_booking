@@ -58,9 +58,23 @@ module.exports = {
     },
     single: async (req, res, next) => {
       var creator = await req.event.getUser();
+      var allowed = Math.min(
+        req.event.max - req.eventData.booked,
+        req.event.capacity - req.eventData.occupied
+      );
       res.render("event/single", {
         event: req.event.get({ plain: true }),
         creator: creator.get({ plain: true })
+      });
+    },
+    transactions: async (req, res, next) => {
+      var transactions = await req.event.getTransactions({order:models.sequelize.col('createdAt')});
+      var fund = req.eventData.occupied*req.event.price - req.eventData.totalDiscount;
+      res.render("event/transactions", {
+        transactions: transactions.map(transaction => transaction.get({plain:true})),
+        fund,
+        total: req.eventData.occupied,
+        max: req.event.capacity,
       });
     }
   },

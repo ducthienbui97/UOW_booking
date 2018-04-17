@@ -32,9 +32,18 @@ module.exports = {
       var total = price * tickets;
       var discount = 0;
       var code = "";
-
+      var allowed = Math.min(
+        req.event.max - req.eventData.booked,
+        req.event.capacity - req.eventData.occupied
+      );
+      if (tickets > allowed) {
+        req.session.error = {
+          message: "You are only able to get " + allowed + " tickets"
+        };
+        return res.redirect("/event/" + req.event.id);
+      }
       if (req.query.promotion) {
-        promotion = getPromotion(req, res.locals, req.query.promotion, total);
+        promotion =  await getPromotion(req, res.locals, req.query.promotion, total);
         if (promotion) {
           code = promotion.code;
           if (promotion.isPercentage) discount = total * promotion.amount;
@@ -80,15 +89,9 @@ module.exports = {
     booking: async (req, res, next) => {
       var promotion = null;
       var total = req.event.price * req.body.quantity;
-      var booked = await models.Transaction.sum("quantity", {
-        where: { eventId: req.event.id, userId: req.user.id }
-      });
-      var occupied = await models.Transaction.sum("quantity", {
-        where: { eventId: req.event.id }
-      });
       var allowed = Math.min(
-        req.event.max - booked,
-        req.event.capacity - occupied
+        req.event.max - req.eventData.booked,
+        req.event.capacity - req.eventData.occupied
       );
       if (req.body.quantity > allowed) {
         req.session.error = {

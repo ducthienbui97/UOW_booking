@@ -37,7 +37,20 @@ module.exports = {
       var err = new Error("Event Not Found");
       err.status = 404;
       next(err);
-    } else next();
+    } else {
+      req.eventData = {}
+      if(req.user)
+        req.eventData.booked = (await models.Transaction.sum("quantity", {
+          where: { eventId: req.event.id, userId: req.user.id, cancelled: false }
+        })) || 0;
+      req.eventData.occupied = (await models.Transaction.sum("quantity", {
+        where: { eventId: req.event.id, cancelled: false  }
+      })) || 0;
+      req.eventData.totalDiscount = (await models.Transaction.sum("discounted", {
+        where: { eventId: req.event.id, cancelled: false  }
+      })) || 0;
+      next();
+    }
   },
   getTransaction: async (req, res, next) => {
     req.transaction = await models.Transaction.findOne({
