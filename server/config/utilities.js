@@ -13,7 +13,7 @@ function emptyStringToNull(object) {
   return object;
 }
 module.exports = {
-  getPublicKey: (req,res,next) =>{
+  getPublicKey: (req, res, next) => {
     res.locals.publicKey = process.env.PUBLIC_KEY;
     next();
   },
@@ -38,18 +38,25 @@ module.exports = {
       err.status = 404;
       next(err);
     } else {
-      req.eventData = {}
-      if(req.user)
-        req.eventData.booked = (await models.Transaction.sum("quantity", {
-          where: { eventId: req.event.id, userId: req.user.id, cancelled: false }
-        })) || 0;
+      req.eventData = {};
+      if (req.user)
+        req.eventData.booked =
+          (await models.Transaction.sum("quantity", {
+            where: {
+              eventId: req.event.id,
+              userId: req.user.id,
+              cancelled: false
+            }
+          })) || 0;
       else req.eventData.booked = 0;
-      req.eventData.occupied = (await models.Transaction.sum("quantity", {
-        where: { eventId: req.event.id, cancelled: false  }
-      })) || 0;
-      req.eventData.totalDiscount = (await models.Transaction.sum("discounted", {
-        where: { eventId: req.event.id, cancelled: false  }
-      })) || 0;
+      req.eventData.occupied =
+        (await models.Transaction.sum("quantity", {
+          where: { eventId: req.event.id, cancelled: false }
+        })) || 0;
+      req.eventData.totalDiscount =
+        (await models.Transaction.sum("discounted", {
+          where: { eventId: req.event.id, cancelled: false }
+        })) || 0;
       next();
     }
   },
@@ -92,13 +99,23 @@ module.exports = {
     req.body = emptyStringToNull(req.body);
     next();
   },
-  checkCancelledEvent: (req,res,next) =>{
-    if(req.event.cancelled){
-      req.session.error={
+  checkCancelledEvent: (req, res, next) => {
+    if (req.event.cancelled) {
+      req.session.error = {
         message: "Cannot modify cancelled events!"
-      }
+      };
       res.redirect("/event/" + req.event.id);
-    }else
-      next();
+    } else next();
+  },
+  checkCancelledTransaction: (req, res, next) => {
+    if (req.transaction.cancelled) {
+      req.session.error = {
+        message: "Cannot modify cancelled transactions!"
+      };
+      res.redirect(
+        "/event/" + req.event.id + "/transaction/" + req.transaction.id
+      );
+    } else next();
   }
 };
+
