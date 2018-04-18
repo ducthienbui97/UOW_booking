@@ -33,6 +33,7 @@ module.exports = passport => {
   router.post("/event/:id/cancel", event.post.cancel);
   router.get("/new/event", auth.ensureLoggedIn(), event.get.create);
   router.get("/event/:id/transactions", event.get.transactions);
+  router.get("/event/:id/attendance",event.get.attendance)
   /*Promotions*/
   router.get("/event/:id/promotion/new", promotion.get.new);
   router.get("/event/:id/promotion", promotion.get.list);
@@ -49,7 +50,8 @@ module.exports = passport => {
   router.post("/booking/:id", transaction.post.booking);
   router.post(
     "/booking/:id/transaction/:transId*",
-    utilities.transactionAuthorizationCheck
+    utilities.transactionAuthorizationCheck,
+    utilities.checkCancelledTransaction
   );
   router.post("/booking/:id/transaction/:transId/edit", transaction.post.edit);
   router.post(

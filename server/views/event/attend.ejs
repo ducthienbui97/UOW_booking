@@ -1,0 +1,27 @@
+<%- include ../head%>
+<table class="table table-bordered">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Student Number</th>
+    </tr>
+    <%transactions.forEach(transaction => {%>
+        <%transaction.Tickets.forEach(ticket => {%>
+    <tr>
+        <td>
+            <%=ticket.name%>
+        </td>
+        <td>
+            <%=ticket.email%>
+        </td>
+        <td>
+            <%=ticket.studentNo%>
+        </td>
+    </tr>
+        <%})%>
+    <%})%>
+</table>
+
+<a href="/event/<%=event.id%>" ><button type="button" class="btn">Back</button></a>
+<button type="button" class="btn" onclick="window.print()">Print</button>
+<%- include ../foot%>

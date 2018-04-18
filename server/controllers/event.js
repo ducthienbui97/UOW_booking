@@ -21,7 +21,7 @@ module.exports = {
               "CURRENT_TIMESTAMP"
             )
           },
-          cancelled:false
+          cancelled: false
         },
         order: models.sequelize.col("start_time")
       });
@@ -32,7 +32,6 @@ module.exports = {
       });
     },
     ofUser: async (req, res, next) => {
-
       var events = await req.user.getEvents({
         where: {
           start_time: {
@@ -62,17 +61,36 @@ module.exports = {
         event: req.event.get({ plain: true }),
         creator: creator.get({ plain: true }),
         allowed,
-        occupied:req.eventData.occupied
+        occupied: req.eventData.occupied
       });
     },
     transactions: async (req, res, next) => {
-      var transactions = await req.event.getTransactions({order:models.sequelize.col('createdAt')});
-      var fund = req.eventData.occupied*req.event.price - req.eventData.totalDiscount;
+      var transactions = await req.event.getTransactions({
+        order: models.sequelize.col("createdAt")
+      });
+      var fund =
+        req.eventData.occupied * req.event.price - req.eventData.totalDiscount;
       res.render("event/transactions", {
-        transactions: transactions.map(transaction => transaction.get({plain:true})),
+        event: req.event.get({plain:true}),
+        transactions: transactions.map(transaction =>
+          transaction.get({ plain: true })
+        ),
         fund,
         total: req.eventData.occupied,
-        max: req.event.capacity,
+        max: req.event.capacity
+      });
+    },
+    attendance: (req, res, next) => {
+      req.event.getTransactions({
+        where:{cancelled:false},
+        include: [{ model: models.Ticket }]
+      }).then(transactions => {
+        res.render("event/attend", {
+          event: req.event.get({plain:true}),
+          transactions: transactions.map(transaction =>
+            transaction.get({ plain: true })
+          )
+        });
       });
     }
   },
