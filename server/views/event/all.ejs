@@ -4,10 +4,15 @@
 <div class="card w-75">
     <img class="card-img img-fluid no-border" src="<%=event.imageURL%>" alt="Event Image">
     <div class="card-img-top" >
-        <h5 class="card-title"><a href="/event/<%=event.id%>"><%= event.name%></a></h5>
+        <h5 class="card-title"><%= event.name%></h5>
         <p><%=event.description.length > 1000 ? event.description.substr(0,1000) + "..." : event.description%></p>
         <p>Time: <%= event.start_time.toLocaleString()%> -  <%= event.end_time.toLocaleString()%></p>
         <p>Location: <%=event.location%></p>
+        <%if(event.cancelled){%>
+        <a href="/event/<%=event.id%>"><button class="button btn-secondary disabled">Cancelled</button></a>
+        <%} else {%>
+        <a href="/event/<%=event.id%>"><button class="btn btn-primary">View More</button></a>
+        <%}%>
     </div>
 </div>
 

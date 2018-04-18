@@ -91,5 +91,14 @@ module.exports = {
   emptyStringToNull: (req, res, next) => {
     req.body = emptyStringToNull(req.body);
     next();
+  },
+  checkCancelledEvent: (req,res,next) =>{
+    if(req.event.cancelled){
+      req.session.error={
+        message: "Cannot modify cancelled events!"
+      }
+      res.redirect("/event/" + req.event.id);
+    }else
+      next();
   }
 };

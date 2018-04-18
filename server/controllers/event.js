@@ -23,7 +23,8 @@ module.exports = {
             [models.sequelize.Op.gt]: models.sequelize.literal(
               "CURRENT_TIMESTAMP"
             )
-          }
+          },
+          cancelled:false
         },
         offset,
         limit,
@@ -62,9 +63,9 @@ module.exports = {
         req.event.max - req.eventData.booked,
         req.event.capacity - req.eventData.occupied
       );
-      console.log(req.eventData.booked);
-      console.log(req.eventData.occupied);
-      console.log(allowed)
+      // console.log(req.eventData.booked);
+      // console.log(req.eventData.occupied);
+      // console.log(allowed)
       res.render("event/single", {
         event: req.event.get({ plain: true }),
         creator: creator.get({ plain: true }),

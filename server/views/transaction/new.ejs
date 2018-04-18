@@ -6,23 +6,50 @@ Discount: <%= discount.toFixed(2) %> <br>
 Promotion Code: <%= code %> <br>
 <form action="/booking/<%=event.id%>" method="get">
     <input name="count" value="<%=tickets%>" hidden>
-    <input name="promotion" value="<%= code %>">
-    <input class="btn" type="submit" value="Set Promotion Code">
+    <div class="form-row">
+        <div class="col-md-3">
+            <input name="promotion" value="<%= code %>" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <input class="btn" type="submit" value="Set Promotion Code">
+        </div>
+    </div>
 </form>
 <form action="/booking/<%=event.id%>" method="post">
+    <div class="row">
     <input name="quantity" value=<%=tickets%> hidden>
     <input name="promotionCode" value="<%=code%>" hidden>
-    <%for(var i = 0; i < tickets; i++){%>
-        <input name="tickets[<%=i%>][name]" type="text" >
-        <input name="tickets[<%=i%>][email]" type="email">
-        <input name="tickets[<%=i%>][studentNo]" type="number">
-        <br/>
-    <%}%>
+        <table class="table col-md-10">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Student Number</th>
+            </tr>
+            <%for(var i = 0; i < tickets; i++){%>
+            <tr>
+                <td>
+                    <%=i+1%>
+                </td>
+                <td>
+                    <input name="tickets[<%=i%>][name]" type="text" required class="border-bottom form-control">
+                </td>
+                <td>
+                    <input name="tickets[<%=i%>][email]" type="email"  class="border-bottom form-control" >
+                </td>
+                <td>
+                    <input name="tickets[<%=i%>][studentNo]" type="number" class="border-bottom form-control">
+                </td>
+            </tr>
+            <%}%>
+        </table>
+    </div>
+
     <%if(total <= discount){%>
-        <input type="submit" value="Confirm" class="btn stripe-button"/>
+        <input type="submit" value="Confirm" class="btn btn-info"/>
     <%} else {%>
         <script
-            src="https://checkout.stripe.com/checkout.js" class="btn stripe-button"
+            src="https://checkout.stripe.com/checkout.js" class="btn stripe-button btn-info"
             data-key="<%=locals.publicKey%>"
             data-amount="<%=Math.round((total - discount)*100)%>"
             data-name="UOW Booking"
@@ -37,6 +64,7 @@ Promotion Code: <%= code %> <br>
             data-allow-remember-me=true>
         </script>
     <%}%>
+    <a href="/event/<%=event.id%>" ><button type="button" class="btn">Back</button></a>
+
 </form>
-<a href="/event/<%=event.id%>" ><button type="button">Back</button></a>
 <%-include ../foot%>

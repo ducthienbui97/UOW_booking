@@ -16,7 +16,7 @@ module.exports = {
   },
   post: {
     new: (req, res, next) => {
-      console.log(req.body);
+      // console.log(req.body);
       models.Promotion.findOrCreate({
         where: {
           eventId: req.event.id,

@@ -22,17 +22,21 @@
         <hr class="col-xs-12">
     <%}%>
     <div class="col-md-12">
+        <%if(event.cancelled){%>
+        The event is cancelled
+        <%}else{%>
         <form action="/booking/<%=event.id%>" method="get" class="form-inline">
             <div class="form-group">
                 <label class="col-form-label" for="count">Number of attendances:</label>
                 <select name="count" class="form-control mx-sm-3" >
                     <%for(var i = 1; i <= allowed; i++){%>
-                        <option value=<%=i%> ><%=i%></option>
+                    <option value=<%=i%> ><%=i%></option>
                     <%}%>
                 </select>
             </div>
             <button type="submit" class="btn btn-success">Make booking</button>
         </form>
+        <%}%>
     </div>
     <hr class="col-xs-12">
     <div class="col-md-6">
@@ -46,9 +50,10 @@
     </div>
 </div>
 
-<%if(locals.user && user.id == event.userId){%>
+<%if(locals.user && user.id == event.userId && !event.cancelled){%>
 <hr class="col-xs-12">
-<form action="/event/<%=event.id%>/cancel" method="post" class="form-inline">
+<form action="/event/<%=event.id%>/cancel" method="post" class="form-inline"
+      onsubmit="return confirm('This action can not be undone!\nDo you wish do continue?');">
     <input type="submit" value="Cancel Event" class="btn btn-danger">
 </form>
 <%}%>

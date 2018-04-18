@@ -21,6 +21,7 @@ module.exports = passport => {
   /*Events*/
   router.get("/", event.get.all);
   router.all("/event/:id*", utilities.getEvent);
+  router.post("/event/:id*",utilities.checkCancelledEvent);
   router.get("/event/:id", event.get.single);
   router.all("/event*", auth.ensureLoggedIn());
   router.all("/event/:id/*", utilities.eventAuthorizationCheck);
