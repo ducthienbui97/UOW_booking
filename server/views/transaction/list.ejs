@@ -1,15 +1,31 @@
 <%- include ../head%>
-<h2>Booked events:</h2>
+<a href="?showAll=true"><button class="btn">Show All Booked Event</button></a>
+<a href="?"><button class="btn">Show Only Upcomming Event</button></a>
+<table class="table">
+    <tr>
+        <th>Event</th>
+        <th>Start time</th>
+        <th>End time</th>
+        <th>Location</th>
+        <th>Number of ticket</th>
+        <th>Cost</th>
+        <th>Discounted</th>
+        <th></th>
+    </tr>
 <%events.forEach(event => {%>
-    Event: <a href="/event/<%=event.id%>"><%= event.name%></a> <br>
-    Location: <%= event.location%> <br>
-    Start Time: <%= event.start_time.toLocaleString() %> <br>
-    End Time: <%= event.end_time.toLocaleString() %> <br>
-    Transactions: <br>
     <%event.Transactions.forEach(transaction => {%>
-        Transaction id: <a href="/booking/<%=event.id%>/transaction/<%=transaction.id%>"><%=transaction.id%> </a>
-        Tickets: <%= transaction.quantity%> <br>
-        Total: <%= transaction.total %> <br>
+    <tr>
+        <td><a href="/event/<%=event.id%>"><%= event.name%></a> </td>
+        <td><%= event.start_time.toLocaleString() %></td>
+        <td><%= event.end_time.toLocaleString() %></td>
+        <td><%= event.location%></td>
+        <td><%=transaction.quantity%></td>
+        <td><%=transaction.total%></td>
+        <td><%=transaction.discounted%></td>
+        <td><a href="/booking/<%=event.id%>/transaction/<%=transaction.id%>">View Transaction</a></td>
+    </tr>
     <%})%>
 <%})%>
+</table>
+
 <%-include ../foot%>

@@ -1,5 +1,4 @@
 var models = require("../models");
-const limit = 50;
 
 module.exports = {
   get: {
@@ -15,8 +14,6 @@ module.exports = {
         currentPage: "new-event"
       }),
     all: async (req, res, next) => {
-      var pages = req.query.pages ? req.query.pages : 1;
-      var offset = (pages - 1) * limit;
       var events = await models.Event.findAll({
         where: {
           start_time: {
@@ -26,8 +23,6 @@ module.exports = {
           },
           cancelled:false
         },
-        offset,
-        limit,
         order: models.sequelize.col("start_time")
       });
       res.render("event/all", {
@@ -37,8 +32,7 @@ module.exports = {
       });
     },
     ofUser: async (req, res, next) => {
-      var pages = req.query.pages ? req.query.pages : 1;
-      var offset = (pages - 1) * limit;
+
       var events = await req.user.getEvents({
         where: {
           start_time: {
@@ -47,8 +41,6 @@ module.exports = {
             )
           }
         },
-        offset,
-        limit,
         order: models.sequelize.col("start_time")
       });
       res.render("event/all", {

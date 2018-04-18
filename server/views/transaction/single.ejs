@@ -1,18 +1,42 @@
 <%- include ../head%>
-Number of ticket: <%= transaction.quantity %> <br>
-Total: <%= transaction.total %> <br>
-Discount: <%= transaction.discounted %> <br>
+<p>Number of ticket: <%= transaction.quantity %></p>
+<p>Total: <%= transaction.total %>$</p>
+<p>Discount: <%= transaction.discounted %>$</p>
 <form action="/booking/<%=transaction.eventId%>/transaction/<%=transaction.id%>/edit" method="post">
-<% for(var i = 0; i < transaction.quantity; i++){%>
-    <%var ticket = transaction.Tickets[i]%>
-    <input hidden value="<%=ticket.id%>" name="tickets[<%=i%>][id]">
-    <input value="<%=ticket.name%>" type="text" name="tickets[<%=i%>][name]" disable="<%=transaction.cancelled%>">
-    <input value="<%=ticket.email%>" type="email" name="tickets[<%=i%>][email]" disable="<%=transaction.cancelled%>">
-    <input value="<%=ticket.studentNo%>" type="number" name="tickets[<%=i%>][studentNo]" disable="<%=transaction.cancelled%>">
-<%}%> <br>
-<input type="submit" class="btn" value="Save" disable="<%=transaction.cancelled%>">
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Student Number</th>
+    </tr>
+    <% for(var i = 0; i < transaction.quantity; i++){%>
+        <tr>
+        <%var ticket = transaction.Tickets[i]%>
+        <input hidden value="<%=ticket.id%>" name="tickets[<%=i%>][id]">
+        <td>
+            <input value="<%=ticket.name%>" type="text" name="tickets[<%=i%>][name]" disabled="<%=transaction.cancelled%>"
+            class="form-control no-border" required>
+        </td>
+        <td>
+            <input value="<%=ticket.email%>" type="email" name="tickets[<%=i%>][email]" disabled="<%=transaction.cancelled%>"
+            class="form-control no-border">
+        </td>
+        <td>
+            <input value="<%=ticket.studentNo%>" type="number" name="tickets[<%=i%>][studentNo]"
+                   disabled="<%=transaction.cancelled%>" class="form-control no-border">
+        </td>
+        </tr>
+    <%}%>
+</table> <hr>
+<%if(!transaction.cancelled){%>
+    <input type="submit" class="btn" value="Save Editing" disable="<%=transaction.cancelled%>">
+<%}%>
 </form>
-<form action="/booking/<%=transaction.eventId%>/transaction/<%=transaction.id%>/cancel" method="post">
-    <input type="submit" class="btn" value="Cancel">
-</form>
+<br>
+<%if(!transaction.cancelled){%>
+    <form action="/booking/<%=transaction.eventId%>/transaction/<%=transaction.id%>/cancel" method="post"
+          onsubmit="return confirm('This action can not be undone!\nDo you wish do continue?');">
+        <input type="submit" class="btn btn-danger" value="Cancel Booking">
+    </form>
+<%}%>
 <%-include ../foot%>

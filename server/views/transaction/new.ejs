@@ -44,12 +44,10 @@ Promotion Code: <%= code %> <br>
             <%}%>
         </table>
     </div>
-
-    <%if(total <= discount){%>
-        <input type="submit" value="Confirm" class="btn btn-info"/>
-    <%} else {%>
+    <input type="submit" value="Confirm" class="btn btn-info"/>
+    <%if(total > discount) {%>
         <script
-            src="https://checkout.stripe.com/checkout.js" class="btn stripe-button btn-info"
+            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
             data-key="<%=locals.publicKey%>"
             data-amount="<%=Math.round((total - discount)*100)%>"
             data-name="UOW Booking"
@@ -62,6 +60,9 @@ Promotion Code: <%= code %> <br>
             data-panel-label="Pay"
             data-label="Confirm"
             data-allow-remember-me=true>
+        </script>
+        <script defer>
+            $('.stripe-button-el')[0].style.display='none';
         </script>
     <%}%>
     <a href="/event/<%=event.id%>" ><button type="button" class="btn">Back</button></a>

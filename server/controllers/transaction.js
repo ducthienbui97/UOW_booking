@@ -43,7 +43,12 @@ module.exports = {
         return res.redirect("/event/" + req.event.id);
       }
       if (req.query.promotion) {
-        promotion =  await getPromotion(req, res.locals, req.query.promotion, total);
+        promotion = await getPromotion(
+          req,
+          res.locals,
+          req.query.promotion,
+          total
+        );
         if (promotion) {
           code = promotion.code;
           if (promotion.isPercentage) discount = total * promotion.amount;
@@ -65,6 +70,18 @@ module.exports = {
       });
     },
     list: (req, res, next) => {
+      var where = {};
+      if (!req.query.showAll) {
+        where = {
+          start_time: {
+            [models.sequelize.Op.gt]: models.sequelize.literal(
+              "CURRENT_TIMESTAMP"
+            )
+          },
+          cancelled: false
+        };
+      }
+
       models.Event.findAll({
         include: [
           {
@@ -72,7 +89,9 @@ module.exports = {
             where: { userId: req.user.id },
             include: [{ model: models.Ticket }]
           }
-        ]
+        ],
+        where,
+        order: models.sequelize.col("start_time")
       }).then(events => {
         return res.render("transaction/list", {
           events: events.map(event => event.get({ plain: true }))
@@ -80,6 +99,7 @@ module.exports = {
       });
     },
     single: (req, res) => {
+      console.log(req.transaction);
       res.render("transaction/single", {
         transaction: req.transaction.get({ plain: true })
       });
@@ -130,6 +150,7 @@ module.exports = {
           currency: "AUD",
           source: req.body.stripeToken
         });
+        console.log(charge);
         transaction.stripeId = charge.id;
       }
       transaction = await transaction.save();
