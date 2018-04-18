@@ -1,7 +1,7 @@
 <%- include ../head%>
 <p>Number of ticket: <%= transaction.quantity %></p>
-<p>Total: <%= transaction.total %>$</p>
-<p>Discount: <%= transaction.discounted %>$</p>
+<p>Total: $<%= transaction.total.toFixed(2) %></p>
+<p>Discount: $<%= transaction.discounted.toFixed(2) %></p>
 <form action="/booking/<%=transaction.eventId%>/transaction/<%=transaction.id%>/edit" method="post">
 <table class="table">
     <tr>
@@ -14,21 +14,24 @@
         <%var ticket = transaction.Tickets[i]%>
         <input hidden value="<%=ticket.id%>" name="tickets[<%=i%>][id]">
         <td>
-            <input value="<%=ticket.name%>" type="text" name="tickets[<%=i%>][name]" disabled="<%=transaction.cancelled%>"
+            <input value="<%=ticket.name%>" type="text" name="tickets[<%=i%>][name]" <%=transaction.cancelled?"disabled":""%>
             class="form-control no-border" required>
         </td>
         <td>
-            <input value="<%=ticket.email%>" type="email" name="tickets[<%=i%>][email]" disabled="<%=transaction.cancelled%>"
+            <input value="<%=ticket.email%>" type="email" name="tickets[<%=i%>][email]" <%=transaction.cancelled?"disabled":""%>
             class="form-control no-border">
         </td>
         <td>
             <input value="<%=ticket.studentNo%>" type="number" name="tickets[<%=i%>][studentNo]"
-                   disabled="<%=transaction.cancelled%>" class="form-control no-border">
+                   <%=transaction.cancelled?"disabled":""%> class="form-control no-border">
         </td>
         </tr>
     <%}%>
 </table>
     <hr>
+    <%if(transaction.cancelled){%>
+        <p>The transaction was cancelled</p>
+    <%}%>
     <%if(user.id == transaction.userId && !transaction.cancelled){%>
     <input type="submit" class="btn" value="Save Editing" disable="<%=transaction.cancelled%>">
     <%}%>

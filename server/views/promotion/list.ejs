@@ -15,12 +15,12 @@
         <tr>
             <form method="post" action="/event/<%=event.id%>/promotion/edit">
                 <input name="id" hidden value="<%=promo.id%>">
-                <td><input name="code" value="<%=promo.code%>" type="text" required class="no-border"> </td>
-                <td><input name="amount "value="<%=promo.amount%>" type="number" required min="0" class="no-border"></td>
-                <td><input name="minSpend" value="<%=promo.minSpend%>" type="number" required class="no-border"></td>
+                <td><input name="code" value="<%=promo.code%>" type="text" required class="form-control no-border"> </td>
+                <td><input name="amount "value="<%=promo.amount%>" type="number" required min="0" class="form-control no-border"></td>
+                <td><input name="minSpend" value="<%=promo.minSpend%>" type="number" required class="form-control no-border"></td>
                 <td><input name="expire" value="<%=promo.expire.toISOString().slice(0,-1)%>"
-                           type="datetime-local" required  class="no-border"> </td>
-                <td><input name="isPercentage" <%=promo.isPercentage?"checked":""%> type="checkbox" class="no-border"> </td>
+                           type="datetime-local" required  class="form-control no-border"> </td>
+                <td><input name="isPercentage" <%=promo.isPercentage?"checked":""%> type="checkbox" class="form-control no-border"> </td>
                 <td><input type="submit" class="btn" value="Save"> </td>
             </form>
 

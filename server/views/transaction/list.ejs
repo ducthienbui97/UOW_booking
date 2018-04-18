@@ -20,8 +20,8 @@
         <td><%= event.end_time.toLocaleString() %></td>
         <td><%= event.location%></td>
         <td><%=transaction.quantity%></td>
-        <td><%=transaction.total%></td>
-        <td><%=transaction.discounted%></td>
+        <td>$<%=transaction.total.toFixed(2)%></td>
+        <td>$<%=transaction.discounted.toFixed(2)%></td>
         <td><a href="/booking/<%=event.id%>/transaction/<%=transaction.id%>">View Transaction</a></td>
     </tr>
     <%})%>

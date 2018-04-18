@@ -99,7 +99,7 @@ module.exports = {
       });
     },
     single: (req, res) => {
-      console.log(req.transaction);
+      //console.log(req.transaction);
       res.render("transaction/single", {
         transaction: req.transaction.get({ plain: true })
       });
@@ -150,7 +150,7 @@ module.exports = {
           currency: "AUD",
           source: req.body.stripeToken
         });
-        console.log(charge);
+        //console.log(charge);
         transaction.stripeId = charge.id;
       }
       transaction = await transaction.save();
