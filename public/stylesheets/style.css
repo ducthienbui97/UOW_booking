@@ -4,5 +4,35 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
+}
+
+.user-form {
+  padding: 15px;
+  margin: auto;
+  width: 100%;
+  max-width: 420px;
+}
+
+.card-img{
+  max-width: 1024px;
+  max-height: 200px;
+  object-fit: cover;
+}
+.card{
+  margin: 15px;
+}
+.no-border{
+  border: none;
+}
+.row{
+  margin: 15px;
+}
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 100%;
+  background-color:darkgray;
+  height: 1px;
 }

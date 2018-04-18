@@ -43,6 +43,7 @@ module.exports = {
         req.eventData.booked = (await models.Transaction.sum("quantity", {
           where: { eventId: req.event.id, userId: req.user.id, cancelled: false }
         })) || 0;
+      else req.eventData.booked = 0;
       req.eventData.occupied = (await models.Transaction.sum("quantity", {
         where: { eventId: req.event.id, cancelled: false  }
       })) || 0;

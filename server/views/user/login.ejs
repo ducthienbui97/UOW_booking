@@ -1,9 +1,14 @@
 <%- include ../head%>
-    <form id="login" name="login" method="post" action="login">
-        <label for="email">Email Address</label>
-        <input class="text" name="email" type="text" />
-        <label for="password">Password</label>
-        <input name="password" type="password" />
-        <input class="btn" type="submit" value="Sign In" />
+    <form id="login" name="login" method="post" action="login" class="user-form">
+        <div class="form-label-group">
+            <label for="email">Email Address</label>
+            <input name="email" type="email" class="form-control" required autofocus/>
+        </div>
+        <div class="form-label-group">
+            <label for="password">Password</label>
+            <input name="password" type="password" class="form-control" required/>
+        </div>
+        <br>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign In" />
     </form>
 <%-include ../foot%>

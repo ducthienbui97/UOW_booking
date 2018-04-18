@@ -5,7 +5,7 @@ module.exports = {
   get: {
     edit: (req, res) => {
       res.render("event/edit", {
-        title: event.name,
+        title: req.event.name,
         event: req.event.get({ plain: true })
       });
     },
@@ -62,9 +62,14 @@ module.exports = {
         req.event.max - req.eventData.booked,
         req.event.capacity - req.eventData.occupied
       );
+      console.log(req.eventData.booked);
+      console.log(req.eventData.occupied);
+      console.log(allowed)
       res.render("event/single", {
         event: req.event.get({ plain: true }),
-        creator: creator.get({ plain: true })
+        creator: creator.get({ plain: true }),
+        allowed,
+        occupied:req.eventData.occupied
       });
     },
     transactions: async (req, res, next) => {

@@ -1,13 +1,21 @@
 <%- include ../head%>
- <form id="signup" name="signup" method="post" action="signup">
-        <label for="email">Email Address</label>
-        <input class="text" name="email" type="email" required/>
-        <label for="name">Name</label>
-        <input name="name" type="text" required/>
-        <label for="studentNo">Student Number</label>
-        <input name="studentNo" type="text" />
-        <label for="password">Password</label>
-        <input name="password" type="password" required/>
-        <input class="btn" type="submit" value="Sign Up" />
+ <form id="signup" name="signup" method="post" action="signup" class="user-form">
+        <div class="form-label-group">
+               <label for="email">Email Address</label>
+               <input name="email" type="email" required class="form-control"/>
+        </div>
+        <div class="form-label-group">
+            <label for="name">Name</label>
+            <input name="name" type="text" required  class="form-control"/>
+        </div>
+        <div class="form-label-group">
+            <label for="studentNo">Student Number</label>
+            <input name="studentNo" type="text" class="form-control"/>
+        </div>
+        <div class="form-label-group">
+            <label for="password">Password</label>
+            <input name="password" type="password" required class="form-control"/>
+        </div>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign Up" />
     </form>
 <%-include ../foot%>
