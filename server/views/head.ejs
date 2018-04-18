@@ -17,13 +17,16 @@
 </head>
 <body>
 <%- include navbar %>
-<%if(locals.error && locals.error.message){%>
-    <div class="alert alert-danger">
-        <%= error.message%>
+<main role="main" class="container">
+    <div class="row">
+    <%if(locals.error && locals.error.message){%>
+       <div class="alert alert-danger col-sm-12 col-md-8 align-center">
+           <%= error.message%>
+        </div>
+    <%}%>
+    <%if(locals.success && locals.success.message){%>
+        <div class="alert alert-success col-sm-12 col-md-8 align-center">
+            <%= success.message%>
+        </div>
+    <%}%>
     </div>
-<%}%>
-<%if(locals.success && locals.success.message){%>
-<div class="alert alert-success">
-    <%= success.message%>
-</div>
-<%}%>
