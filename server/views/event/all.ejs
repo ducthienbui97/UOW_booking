@@ -1,8 +1,16 @@
 <%-include ../head%>
+<div class="row">
 <%events.forEach(event => {%>
-    <h2><a href="/event/<%=event.id%>"><%= event.name%></a></h2>
-    <p><%= event.start_time.toLocaleString()%></p>
-    <p><%= event.end_time.toLocaleString()%></p>
-    <p><%=event.location%></p>
+<div class="card w-75">
+    <img class="card-img img-fluid no-border" src="<%=event.imageURL%>" alt="Event Image">
+    <div class="card-img-top" >
+        <h5 class="card-title"><a href="/event/<%=event.id%>"><%= event.name%></a></h5>
+        <p><%=event.description.length > 1000 ? event.description.substr(0,1000) + "..." : event.description%></p>
+        <p>Time: <%= event.start_time.toLocaleString()%> -  <%= event.end_time.toLocaleString()%></p>
+        <p>Location: <%=event.location%></p>
+    </div>
+</div>
+
 <%})%>
+</div>
 <%-include ../foot%>

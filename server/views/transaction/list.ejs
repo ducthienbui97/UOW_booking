@@ -3,7 +3,8 @@
 <%events.forEach(event => {%>
     Event: <a href="/event/<%=event.id%>"><%= event.name%></a> <br>
     Location: <%= event.location%> <br>
-    Time: <%= event.start_time %> <br>
+    Start Time: <%= event.start_time.toLocaleString() %> <br>
+    End Time: <%= event.end_time.toLocaleString() %> <br>
     Transactions: <br>
     <%event.Transactions.forEach(transaction => {%>
         Transaction id: <a href="/booking/<%=event.id%>/transaction/<%=transaction.id%>"><%=transaction.id%> </a>

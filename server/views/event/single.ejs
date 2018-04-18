@@ -1,28 +1,52 @@
 <%- include ../head%>
-
-<h2><%= event.name%> by <%= creator.name%></h2>
-<img src="<%=event.imageURL%>"> <br>
+<div class="row">
+    <div class="col-md-4">
+        <img src="<%=event.imageURL%>" class="w-100">
+    </div>
+    <div class="col-md-8 px-3">
+        <h5><%=event.name%></h5>
+        <p>by <strong><%=creator.name%></strong></p>
+        <p>Start Time: <%= event.start_time.toLocaleString() %></p>
+        <p>End Time: <%= event.end_time.toLocaleString() %></p>
+        <p>Price: $<%= event.price%></p>
+        <p>Avaible for booking: <%=event.capacity - occupied%></p>
+        <p>Location: <%= event.location %></p>
+    </div>
+    <hr class="col-xs-12">
+    <%if(locals.user && user.id == event.userId){%>
+        <div class="col-md-12">
+            <a href="/event/<%=event.id%>/promotion%>"><button class="btn">Manage Promotions</button></a>
+            <a href="/event/<%=event.id%>/transactions%>"><button class="btn">Manage Transactions</button></a>
+        </div>
+        <hr class="col-xs-12">
+    <%}%>
+    <div class="col-md-12">
+        <form action="/booking/<%=event.id%>" method="get" class="form-inline">
+            <div class="form-group">
+                <label class="col-form-label" for="count">Number of attendances:</label>
+                <select name="count" class="form-control mx-sm-3" >
+                    <%for(var i = 1; i <= allowed; i++){%>
+                        <option value=<%=i%> ><%=i%></option>
+                    <%}%>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Make booking</button>
+        </form>
+    </div>
+    <hr class="col-xs-12">
+    <div class="col-md-4">
+        <%= event.description%>
+    </div>
+    <div class="col-md-8 px-3">
+        <p>Start Time: <%= event.start_time.toLocaleString() %></p>
+        <p>End Time: <%= event.end_time.toLocaleString() %></p>
+        <p>Organizer: <%=creator.name%></p>
+        <p>Contact Detail: <%=creator.email%></p>
+    </div>
+</div>
 
 <%if(locals.user && user.id == event.userId){%>
-<a href="/event/<%=event.id%>/promotion%>"><button class="btn">Manage Promotions</button></a>
-<a href="/event/<%=event.id%>/transactions%>"><button class="btn">Manage Transactions</button></a>
-<%}%>
-
-<p>Start Time: <%= event.start_time.toLocaleString() %></p>
-<p>End Time: <%= event.end_time.toLocaleString() %></p>
-<p>Location: <%= event.location %></p>
-<p>Description: <%= event.description%></p>
-<p>Price: $<%= event.price%></p>
-
-<form action="/booking/<%=event.id%>" method="get">
-    <select name="count">
-        <%for(var i = 1; i <= event.max; i++){%>
-        <option value=<%=i%> ><%=i%></option>
-        <%}%>
-    </select>
-    <button type="submit" class="btn">Submit</button>
-</form>
-<%if(locals.user && user.id == event.userId){%>
+<hr class="col-xs-12">
 <form action="/event/<%=event.id%>/cancel" method="post" class="form-inline">
     <input type="submit" value="Cancel Event" class="btn btn-danger">
 </form>

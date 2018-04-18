@@ -15,7 +15,7 @@ Total money received: <%=fund%> <br>
     <tbody>
     <%transactions.forEach(transaction => {%>
     <tr>
-       <td><%=transaction.createdAt.toISOString()%></td>
+       <td><%=transaction.createdAt.toLocaleString()%></td>
        <td><%=transaction.quantity%></td>
        <td><%=transaction.total%></td>
        <td><%=transaction.discounted%></td>
