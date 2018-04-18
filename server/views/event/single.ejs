@@ -15,6 +15,7 @@
     <hr class="col-xs-12">
     <%if(locals.user && user.id == event.userId){%>
         <div class="col-md-12">
+            <a href="/event/<%=event.id%>/edit%>"><button class="btn">Edit Event</button></a>
             <a href="/event/<%=event.id%>/promotion%>"><button class="btn">Manage Promotions</button></a>
             <a href="/event/<%=event.id%>/transactions%>"><button class="btn">Manage Transactions</button></a>
         </div>
@@ -34,10 +35,10 @@
         </form>
     </div>
     <hr class="col-xs-12">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <%= event.description%>
     </div>
-    <div class="col-md-8 px-3">
+    <div class="col-md-6 px-3">
         <p>Start Time: <%= event.start_time.toLocaleString() %></p>
         <p>End Time: <%= event.end_time.toLocaleString() %></p>
         <p>Organizer: <%=creator.name%></p>
