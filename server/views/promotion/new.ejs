@@ -1,10 +1,27 @@
 <%- include ../head%>
 <form action="/event/<%=event.id%>/promotion" method="post">
-    <input name="code" placeholder="Code" required>
-    <input name="isPercentage" type="checkbox">
-    <input name="amount" type="number" value="0" min="0" step="0.01" required>
-    <input name="expire" type="datetime-local" value="<%=event.start_time.toISOString().slice(0,-1)%>" required>
-    <input name="minSpend" type="number" value="0" min="0" step="0.01" required>
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label for="code">Promotion Code</label>
+            <input name="code" placeholder="Code" required class="form-control">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="amount" >Discount Amount</label>
+            <input name="amount" type="number" value="0" min="0" step="0.01" required  class="form-control">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="minSpend">Minimum spend required</label>
+            <input name="minSpend" type="number" value="0" min="0" step="0.01" required  class="form-control">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="expire">Expire time</label>
+            <input name="expire" type="datetime-local" value="<%=event.start_time.toISOString().slice(0,-1)%>" required  class="form-control">
+        </div>
+    </div>
+    <div class="form-group form-check">
+        <input name="isPercentage" type="checkbox"  class="form-check-input">
+        <label for="isPercentage"class="form-check-label">This is a percentage discount</label>
+    </div>
     <button class="btn" type="submit">Confirm</button>
 </form>
 <%-include ../foot%>

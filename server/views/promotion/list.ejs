@@ -4,9 +4,9 @@
         <tr>
             <th scope="col">Code</th>
             <th scope="col">Amount</th>
-            <th scope="col">Is percentage</th>
             <th scope="col">Min Spend</th>
             <th scope="col">Expire Date</th>
+            <th scope="col">Is percentage</th>
             <th scope="col"></th>
         </tr>
     </thead>
@@ -15,12 +15,12 @@
         <tr>
             <form method="post" action="/event/<%=event.id%>/promotion/edit">
                 <input name="id" hidden value="<%=promo.id%>">
-                <td><input name="code" value="<%=promo.code%>" type="text" required style="border:0"> </td>
-                <td><input name="amount "value="<%=promo.amount%>" type="number" required min="0" style="border:0"></td>
-                <td><input name="isPercentage" value="<%=promo.isPercentage%>" type="checkbox"> </td>
-                <td><input name="minSpend" value="<%=promo.minSpend%>" type="number" required style="border:0"></td>
+                <td><input name="code" value="<%=promo.code%>" type="text" required class="no-border"> </td>
+                <td><input name="amount "value="<%=promo.amount%>" type="number" required min="0" class="no-border"></td>
+                <td><input name="minSpend" value="<%=promo.minSpend%>" type="number" required class="no-border"></td>
                 <td><input name="expire" value="<%=promo.expire.toISOString().slice(0,-1)%>"
-                           type="datetime-local" required style="border:0"> </td>
+                           type="datetime-local" required  class="no-border"> </td>
+                <td><input name="isPercentage" <%=promo.isPercentage?"checked":""%> type="checkbox" class="no-border"> </td>
                 <td><input type="submit" class="btn" value="Save"> </td>
             </form>
 
@@ -28,5 +28,5 @@
         <%})%>
     </tbody>
 </table>
-<a href="/event/<%=event.id%>/promotion/new%>"><button>Add Promotion</button></a>
+<a href="/event/<%=event.id%>/promotion/new%>"><button class="btn">Add Promotion</button></a>
 <%-include ../foot%>
