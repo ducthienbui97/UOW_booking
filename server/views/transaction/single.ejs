@@ -27,16 +27,18 @@
         </td>
         </tr>
     <%}%>
-</table> <hr>
-<%if(!transaction.cancelled){%>
+</table>
+    <hr>
+    <%if(user.id == transaction.userId && !transaction.cancelled){%>
     <input type="submit" class="btn" value="Save Editing" disable="<%=transaction.cancelled%>">
-<%}%>
+    <%}%>
+    <a href="/event/<%=transaction.eventId%>" ><button class="btn" type="button">View Event</button></a>
 </form>
 <br>
-<%if(!transaction.cancelled){%>
+<%if(user.id == transaction.userId && !transaction.cancelled){%>
     <form action="/booking/<%=transaction.eventId%>/transaction/<%=transaction.id%>/cancel" method="post"
-          onsubmit="return confirm('This action can not be undone!\nDo you wish do continue?');">
-        <input type="submit" class="btn btn-danger" value="Cancel Booking">
+      onsubmit="return confirm('This action can not be undone!\nDo you wish do continue?');">
+    <input type="submit" class="btn btn-danger" value="Cancel Booking">
     </form>
 <%}%>
 <%-include ../foot%>
