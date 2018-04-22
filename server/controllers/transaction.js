@@ -170,7 +170,7 @@ module.exports = {
       );
     },
     cancel: async (req, res, next) => {
-      await req.transaction.update({ cancel: true });
+      await req.transaction.update({ cancelled: true });
       res.redirect(
         "/booking/" + req.event.id + "/transaction/" + req.transaction.id
       );
