@@ -1,7 +1,7 @@
 <%- include ../head%>
 Number of ticket: <%= tickets%> <br>
-Price: $<%= event.price > 0 ? event.price.toFixed(2): "Free"%> <br>
-Total: $<%= total > 0 ? total.toFixed(2) : "Free"%> <br>
+Price: $<%= event.price.toFixed(2)%> <br>
+Total: $<%= total.toFixed(2) %> <br>
 Discount: $<%= discount.toFixed(2) %> <br>
 Promotion Code: <%= code %> <br>
 <form action="/booking/<%=event.id%>" method="get">
