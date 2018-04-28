@@ -8,7 +8,7 @@
         <p>by <strong><%=creator.name%></strong></p>
         <p>Start Time: <%= event.start_time.toLocaleString() %></p>
         <p>End Time: <%= event.end_time.toLocaleString() %></p>
-        <p>Price: $<%= event.price%></p>
+        <p>Price: $<%= event.price.toFixed(2)%></p>
         <p>Available for booking: <%=event.capacity - occupied%></p>
         <p>Location: <%= event.location %></p>
     </div>

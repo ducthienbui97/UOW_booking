@@ -17,8 +17,8 @@ Total money received: <%=fund%> <br>
     <tr>
        <td><%=transaction.createdAt.toLocaleString()%></td>
        <td><%=transaction.quantity%></td>
-       <td><%=transaction.total%></td>
-       <td><%=transaction.discounted%></td>
+       <td><%=transaction.total.toFixed(2)%></td>
+       <td><%=transaction.discounted.toFixed(2)%></td>
        <td><%=transaction.promotionCode%></td>
        <td><%=transaction.cancelled?"Cancelled":""%></td>
     </tr>
