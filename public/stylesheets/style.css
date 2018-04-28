@@ -14,25 +14,29 @@ a {
   max-width: 420px;
 }
 
-.card-img{
+.card-img {
   max-width: 1024px;
   max-height: 200px;
   object-fit: cover;
 }
-.card{
+.card {
   margin: 15px;
 }
-.no-border{
+.no-border {
   border: none;
 }
-.row{
+.row {
   margin: 15px;
 }
 hr {
   border: 0;
-  clear:both;
-  display:block;
+  clear: both;
+  display: block;
   width: 100%;
-  background-color:darkgray;
+  background-color: darkgray;
   height: 1px;
+}
+
+.btn {
+  border: 1px solid #000000 !important;
 }
