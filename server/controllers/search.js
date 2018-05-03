@@ -8,9 +8,9 @@ module.exports = {
       models.Event.findAll({
         where: {
           [models.sequelize.Op.or]: [
-            { name: { like: "%" + query + "%" } },
-            { description: { like: "%" + query + "%" } },
-            { location: { like: "%" + query + "%" } }
+            { name: { $iLike: "%" + query + "%" } },
+            { description: { $iLike: "%" + query + "%" } },
+            { location: { $iLike: "%" + query + "%" } }
           ]
         },
         order: models.sequelize.col(order)
