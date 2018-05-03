@@ -4,7 +4,11 @@
                <label for="email">Email Address</label>
                <input name="email" type="email" required class="form-control"/>
         </div>
-        <div class="form-label-group">
+         <div class="form-label-group">
+             <label for="emailConfirm">Email Address Confirmation</label>
+             <input name="emailConfirm" type="email" required class="form-control"/>
+         </div>
+         <div class="form-label-group">
             <label for="name">Name</label>
             <input name="name" type="text" required  class="form-control"/>
         </div>
@@ -16,6 +20,30 @@
             <label for="password">Password</label>
             <input name="password" type="password" required class="form-control"/>
         </div>
-        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign Up" />
-    </form>
+        <div class="form-label-group">
+             <label for="passwordConfirm">Password Confirmation</label>
+             <input name="passwordConfirm" type="password" required class="form-control"/>
+        </div>
+        <br>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign Up"/>
+ </form>
+<script>
+  $('form').submit(function(e){
+      e.preventDefault();
+      if($('[name="emailConfirm"]').val() !== $('[name="email"]').val()){
+        $("#error-div").attr("hidden",false);
+        $("#error-div").text("Email does not match");
+        $(window).scrollTop(0);
+      }
+      else if( $('[name="passwordConfirm"]').val() !== $('[name="password"]').val()){
+        $("#error-div").attr("hidden",false);
+        $("#error-div").text("Password does not match");
+        $(window).scrollTop(0);
+      }
+      else{
+        this.submit();
+      }
+
+    })
+</script>
 <%-include ../foot%>
