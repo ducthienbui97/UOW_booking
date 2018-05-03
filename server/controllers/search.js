@@ -5,6 +5,7 @@ module.exports = {
     try {
       var query = req.query.q ? req.query.q : "";
       var order = orders.indexOf(order) >= 0 ? req.query.order : "start_time";
+      query = query.split(/[^A-Za-z1-9]+/).join("%");
       models.Event.findAll({
         where: {
           [models.sequelize.Op.or]: [
