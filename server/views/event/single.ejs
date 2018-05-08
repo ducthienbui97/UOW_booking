@@ -23,13 +23,13 @@
         <hr class="col-xs-12">
     <%}%>
     <div class="col-md-12">
-        <%if(event.cancelled){%>
+        <% if(event.cancelled){ %>
         The event was cancelled
-        <%} else if(!event.approved){%>
+        <% } else if(!event.approved){ %>
         The event is waiting for approval
-        <%} else if(event.end_time < Date.now()) {%>
+        <% } else if(event.end_time < Date.now()){ %>
         The event is expired
-        <%} else {%>
+        <% } else { %>
         <form action="/booking/<%=event.id%>" method="get" class="form-inline">
             <div class="form-group">
                 <label class="col-form-label" for="count">Number of attendances:</label>
