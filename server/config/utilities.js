@@ -87,6 +87,13 @@ module.exports = {
       next(error);
     } else next();
   },
+  adminCheck: (req,res,next) => {
+    if(!req.user.isAdmin){
+      var error = new Error("Forbidden");
+      error.status = 403;
+      next(error);
+    } else next();
+  },
   imageUploader: async (req, res, next) => {
     if (req.file) {
       req.body.imageURL = (await axios.post(

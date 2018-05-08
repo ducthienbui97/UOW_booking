@@ -22,7 +22,8 @@ module.exports = {
                 "CURRENT_TIMESTAMP"
               )
             },
-            cancelled: false
+            cancelled: false,
+            approved: true
           },
           order: models.sequelize.col("start_time")
         });
@@ -139,6 +140,14 @@ module.exports = {
         res.redirect("/event/" + req.event.id);
       } catch (e) {
         next(e);
+      }
+    },
+    approve: async (req, res, next) => {
+      try{
+        await req.event.update({ approved: true });
+        res.redirect("/event/" + req.event.id);
+      }catch (e) {
+        next(e)
       }
     }
   }

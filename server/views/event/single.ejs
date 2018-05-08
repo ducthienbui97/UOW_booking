@@ -25,7 +25,9 @@
     <div class="col-md-12">
         <%if(event.cancelled){%>
         The event was cancelled
-        <%}else{%>
+        <%} else if(!event.approved){%>
+        The event is waiting for approval
+        <%} else{%>
         <form action="/booking/<%=event.id%>" method="get" class="form-inline">
             <div class="form-group">
                 <label class="col-form-label" for="count">Number of attendances:</label>
@@ -51,12 +53,23 @@
     </div>
 </div>
 
-<%if(locals.user && user.id == event.userId && !event.cancelled){%>
-<hr class="col-xs-12">
-<form action="/event/<%=event.id%>/cancel" method="post" class="form-inline"
-      onsubmit="return confirm('This action can not be undone!\nDo you wish do continue?');">
-    <input type="submit" value="Cancel Event" class="btn btn-danger">
-</form>
+<%if(locals.user && (user.id == event.userId || user.isAdmin) && !event.cancelled){%>
+    <div class="row">
+    <hr class="col-xs-12">
+    <div class="col-md-3">
+        <form action="/event/<%=event.id%>/cancel" method="post" class="form-inline"
+              onsubmit="return confirm('This action can not be undone!\nDo you wish do continue?');">
+            <input type="submit" value="Cancel Event" class="btn btn-danger">
+        </form>
+    </div>
+    <%if(user.isAdmin){%>
+        <div class="col-md-3">
+            <form action="/event/<%=event.id%>/approve" method="post" class="form-inline">
+                <input type="submit" value="Approve Event" class="btn btn-success">
+            </form>
+        </div>
+    <%}%>
+</div>
 <%}%>
 
 <%-include ../foot%>

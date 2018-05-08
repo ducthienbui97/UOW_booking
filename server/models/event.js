@@ -67,6 +67,10 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           min: 1
         }
+      },
+      approved:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
       }
     },
     {}
