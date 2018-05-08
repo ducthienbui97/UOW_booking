@@ -21,7 +21,7 @@ module.exports = passport => {
   /*Events*/
   router.get("/", event.get.all);
   router.all("/event/:id*", utilities.getEvent);
-  router.post("/event/:id*",utilities.checkCancelledEvent);
+  router.post("/event/:id*", utilities.checkCancelledEvent);
   router.get("/event/:id", event.get.single);
   router.all("/event*", auth.ensureLoggedIn());
   router.all("/event/:id/*", utilities.eventAuthorizationCheck);
@@ -34,7 +34,14 @@ module.exports = passport => {
   router.post("/event/:id/approve", utilities.adminCheck, event.post.approve);
   router.get("/new/event", auth.ensureLoggedIn(), event.get.create);
   router.get("/event/:id/transactions", event.get.transactions);
-  router.get("/event/:id/attendance",event.get.attendance);
+  router.get("/event/:id/attendance", event.get.attendance);
+  router.get(
+    "/waiting/event",
+    auth.ensureLoggedIn(),
+    utilities.adminCheck,
+    event.get.waiting
+  );
+
   /*Promotions*/
   router.get("/event/:id/promotion/new", promotion.get.new);
   router.get("/event/:id/promotion", promotion.get.list);

@@ -13,9 +13,35 @@ module.exports = {
         title: "New Event",
         currentPage: "new-event"
       }),
-    all: async (req, res, next) => {
+    waiting: async (req, res, next) => {
+      var events;
       try {
-        var events = await models.Event.findAll({
+        events = await models.Event.findAll({
+          include: [
+            {
+              model: models.User
+            }
+          ],
+          where: {
+            start_time: {
+              [models.sequelize.Op.gt]: models.sequelize.literal(
+                "CURRENT_TIMESTAMP"
+              )
+            },
+            cancelled: false,
+            approved: false
+          },
+          order: models.sequelize.col("start_time")
+        });
+        res.render("event/waiting",{events:events.map(event => event.get({plain:true}))})
+      } catch (e) {
+        next(e);
+      }
+    },
+    all: async (req, res, next) => {
+      var events;
+      try {
+        events = await models.Event.findAll({
           where: {
             start_time: {
               [models.sequelize.Op.gt]: models.sequelize.literal(
@@ -37,8 +63,9 @@ module.exports = {
       }
     },
     ofUser: async (req, res, next) => {
+      var events;
       try {
-        var events = await req.user.getEvents({
+        events = await req.user.getEvents({
           where: {
             start_time: {
               [models.sequelize.Op.gt]: models.sequelize.literal(
@@ -58,9 +85,10 @@ module.exports = {
       }
     },
     single: async (req, res, next) => {
+      var creator, allowed;
       try {
-        var creator = await req.event.getUser();
-        var allowed = Math.min(
+        creator = await req.event.getUser();
+        allowed = Math.min(
           req.event.max - req.eventData.booked,
           req.event.capacity - req.eventData.occupied
         );
@@ -78,11 +106,12 @@ module.exports = {
       }
     },
     transactions: async (req, res, next) => {
+      var transactions, fund;
       try {
-        var transactions = await req.event.getTransactions({
+        transactions = await req.event.getTransactions({
           order: models.sequelize.col("createdAt")
         });
-        var fund =
+        fund =
           req.eventData.occupied * req.event.price -
           req.eventData.totalDiscount;
         res.render("event/transactions", {
@@ -143,11 +172,11 @@ module.exports = {
       }
     },
     approve: async (req, res, next) => {
-      try{
+      try {
         await req.event.update({ approved: true });
         res.redirect("/event/" + req.event.id);
-      }catch (e) {
-        next(e)
+      } catch (e) {
+        next(e);
       }
     }
   }

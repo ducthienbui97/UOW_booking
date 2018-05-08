@@ -1,0 +1,30 @@
+<%- include ../head%>
+<h3>Events waiting for approval:</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Organizer</th>
+        <th scope="col">Location</th>
+        <th scope="col">Start time</th>
+        <th scope="col">End time</th>
+        <th scope="col">Capacity</th>
+        <th scope="col">Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <%events.forEach(event => {%>
+    <tr>
+        <td><a href="/event/<%=event.id%>"><%= event.name.length > 30? event.name.substring(0,30) + "...":event.name%></a> </td>
+        <td><%= event.User.name %></td>
+        <td><%= event.location.length > 30? event.location.substring(0,30) + "...":event.location%></td>
+        <td><%= event.start_time.toLocaleString() %></td>
+        <td><%= event.end_time.toLocaleString() %></td>
+        <td><%= event.capacity %></td>
+        <td><%= event.price.toFixed(2) %></td>
+    </tr>
+    <%})%>
+    </tbody>
+</table>
+
+<%-include ../foot%>
