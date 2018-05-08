@@ -29,7 +29,9 @@ module.exports = {
               )
             },
             cancelled: false,
-            approved: false
+            approved: {
+              [models.sequelize.Op.not]: true
+            }
           },
           order: models.sequelize.col("start_time")
         });
