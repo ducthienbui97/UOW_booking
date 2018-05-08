@@ -36,6 +36,7 @@ module.exports = {
         passport.authenticate("login", (err, user, info) => {
           if (err) next(err);
           else if (!user) {
+            console.log(info)
             req.session.error = info;
             res.redirect("/login");
           } else

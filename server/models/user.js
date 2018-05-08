@@ -30,6 +30,11 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           isNumeric: true
         }
+      },
+      isAdmin: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
       }
     },
     {}

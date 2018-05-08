@@ -72,14 +72,16 @@ module.exports = {
     } else next();
   },
   transactionAuthorizationCheck: (req, res, next) => {
-    if (req.transaction.userId != req.user.id) {
+    if (req.transaction.userId != req.user.id &&
+          req.transaction.Event.userId != req.use.id &&
+          !req.user.isAdmin) {
       var error = new Error("Forbidden");
       error.status = 403;
       next(error);
     } else next();
   },
   eventAuthorizationCheck: (req, res, next) => {
-    if (req.event.userId != req.user.id) {
+    if (req.event.userId != req.user.id && !req.user.isAdmin) {
       var error = new Error("Forbidden");
       error.status = 403;
       next(error);

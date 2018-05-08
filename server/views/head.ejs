@@ -23,16 +23,15 @@
     <%}%>
     <div class="row">
        <div class="alert alert-danger col-sm-12 col-md-8 align-center" id="error-div"
-            hidden="<%=!locals.error || !locals.error.message%>">
+           <%=!locals.error || !locals.error.message?"hidden":""%>>
            <%if(locals.error && locals.error.message){%>
              <%= error.message%>
            <%}%>
         </div>
         <div class="alert alert-success col-sm-12 col-md-8 align-center" id="success-div"
-            hidden="<%=!locals.success || !locals.success.message%>">
+            <%=!locals.success || !locals.success.message?"hidden":""%>>
             <%if(locals.success && locals.success.message){%>
                 <%= success.message%>
             <%}%>
-
         </div>
     </div>

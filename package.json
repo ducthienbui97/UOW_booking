@@ -36,6 +36,7 @@
         "sequelize": "^4.37.0",
         "sequelize-cli": "^4.0.0",
         "serve-favicon": "~2.4.5",
-        "stripe": "^5.8.0"
+        "stripe": "^5.8.0",
+        "uuid": "^3.2.1"
     }
 }
