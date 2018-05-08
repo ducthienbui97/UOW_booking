@@ -18,7 +18,7 @@ module.exports = {
         id: uuidv4(),
         name: "Admin",
         isAdmin: true,
-        email: "admin@admin.admin",
+        email: "admin@uow.edu.au",
         password: bCrypt.hashSync("admin"),
         createdAt: new Date(),
         updatedAt: new Date()
