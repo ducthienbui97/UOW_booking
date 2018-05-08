@@ -13,7 +13,7 @@
         <p>Location: <%= event.location %></p>
     </div>
     <hr class="col-xs-12">
-    <%if(locals.user && user.id == event.userId){%>
+    <%if(locals.user && (user.id == event.userId || user.isAdmin)){%>
         <div class="col-md-12">
             <a href="/event/<%=event.id%>/edit%>"><button class="btn">Edit Event</button></a>
             <a href="/event/<%=event.id%>/promotion%>"><button class="btn">Manage Promotions</button></a>
