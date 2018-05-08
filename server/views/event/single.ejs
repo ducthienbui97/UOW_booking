@@ -27,7 +27,9 @@
         The event was cancelled
         <%} else if(!event.approved){%>
         The event is waiting for approval
-        <%} else{%>
+        <%} else if(event.end_time < Date.now()) {%>
+        The event is expired
+        <%} else {%>
         <form action="/booking/<%=event.id%>" method="get" class="form-inline">
             <div class="form-group">
                 <label class="col-form-label" for="count">Number of attendances:</label>
