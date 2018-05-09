@@ -8,8 +8,8 @@ var event = require("../controllers/event");
 var transaction = require("../controllers/transaction");
 var search = require("../controllers/search");
 var promotion = require("../controllers/promotion");
+var stats = require("../controllers/statistic");
 var utilities = require("../config/utilities");
-
 module.exports = passport => {
   /*Users*/
   router.get("/signup", user.get.signup);
@@ -19,7 +19,7 @@ module.exports = passport => {
   router.post("/login", user.post.login(passport));
   router.all("/user*", auth.ensureLoggedIn());
   router.get("/user", user.get.user);
-  router.get("/user/changePass", user.get.changePass)
+  router.get("/user/changePass", user.get.changePass);
   router.post("/user/edit", user.post.edit);
   router.post("/user/changePass", user.post.changePass);
 
@@ -74,6 +74,13 @@ module.exports = passport => {
 
   /*Search*/
   router.get("/search", search.get);
-
+  /*Statistic*/
+  router.get(
+    "/statistic",
+    auth.ensureLoggedIn(),
+    utilities.adminCheck,
+    stats.get
+  );
   return router;
+  1;
 };
