@@ -13,7 +13,9 @@ module.exports = {
       res.render("user/signup", {
         currentPage: "signup",
         title: "Signup"
-      })
+      }),
+    user: (req,res) =>
+      res.render("user/view")
   },
   post: {
     signup: passport => {
@@ -47,6 +49,14 @@ module.exports = {
             });
         })(req, res, next);
       };
+    },
+    changePass: (req,res,next) =>{
+      console.log(req.body);
+      res.redirect("/");
+    },
+    edit: (req,res,next) =>{
+      console.log(req.body);
+      res.redirect("/");
     }
   }
 };

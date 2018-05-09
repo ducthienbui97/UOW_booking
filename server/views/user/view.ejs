@@ -1,0 +1,30 @@
+<%- include ../head%>
+<form id="edit" name="edit" method="post" action="user/edit" class="user-form">
+    <div class="form-label-group">
+        <label for="email">Email Address</label>
+        <input name="email" type="email" class="form-control" disabled value="<%=user.email%>"/>
+    </div>
+    <div class="form-label-group">
+        <label for="name">Name</label>
+        <input name="name" type="text" required  class="form-control" value="<%=user.name%>"/>
+    </div>
+    <div class="form-label-group">
+        <label for="studentNo">Student Number</label>
+        <input name="studentNo" type="text" class="form-control" value="<%=user.studentNo%>"/>
+    </div>
+    <br>
+    <input class="btn btn-lg btn-primary btn-block" type="submit" value="Save" />
+</form>
+<form id="edit" name="edit" method="post" action="user/changePass" class="user-form">
+    <div class="form-label-group">
+        <label for="password">Password</label>
+        <input name="password" type="password" required class="form-control"/>
+    </div>
+    <div class="form-label-group">
+        <label for="passwordConfirm">Password Confirmation</label>
+        <input name="passwordConfirm" type="password" required class="form-control"/>
+    </div>
+    <br>
+    <input class="btn btn-lg btn-primary btn-block" type="submit" value="Save"/>
+</form>
+<%-include ../foot%>

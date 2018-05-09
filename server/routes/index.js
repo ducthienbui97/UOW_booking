@@ -17,6 +17,10 @@ module.exports = passport => {
   router.get("/logout", user.get.logout);
   router.post("/signup", user.post.signup(passport));
   router.post("/login", user.post.login(passport));
+  router.all("/user*", auth.ensureLoggedIn());
+  router.get("/user", user.get.user);
+  router.post("/user/edit", user.post.edit);
+  router.post("/user/changePass", user.post.changePass);
 
   /*Events*/
   router.get("/", event.get.all);
