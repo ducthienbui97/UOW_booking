@@ -1,3 +1,6 @@
+var models = require("../models");
+var bCrypt = require("bcrypt-nodejs");
+
 module.exports = {
   get: {
     login: (req, res) =>
@@ -14,8 +17,8 @@ module.exports = {
         currentPage: "signup",
         title: "Signup"
       }),
-    user: (req,res) =>
-      res.render("user/view")
+    user: (req, res) => res.render("user/view"),
+    changePass: (req, res) => res.render("user/changePass")
   },
   post: {
     signup: passport => {
@@ -38,7 +41,7 @@ module.exports = {
         passport.authenticate("login", (err, user, info) => {
           if (err) next(err);
           else if (!user) {
-            console.log(info)
+            console.log(info);
             req.session.error = info;
             res.redirect("/login");
           } else
@@ -50,13 +53,24 @@ module.exports = {
         })(req, res, next);
       };
     },
-    changePass: (req,res,next) =>{
-      console.log(req.body);
-      res.redirect("/");
+    changePass: async (req, res, next) => {
+      try {
+        await req.user.update({ password: bCrypt.hashSync(req.body.password) });
+        res.redirect("/user");
+      } catch (e) {
+        next(e);
+      }
     },
-    edit: (req,res,next) =>{
-      console.log(req.body);
-      res.redirect("/");
+    edit: async (req, res, next) => {
+      try {
+        await req.user.update({
+          name: req.body.name,
+          studentNo: req.body.studentNo
+        });
+        res.redirect("/user");
+      } catch (e) {
+        next(e);
+      }
     }
   }
 };

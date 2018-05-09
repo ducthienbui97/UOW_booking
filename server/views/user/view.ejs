@@ -14,17 +14,8 @@
     </div>
     <br>
     <input class="btn btn-lg btn-primary btn-block" type="submit" value="Save" />
-</form>
-<form id="edit" name="edit" method="post" action="user/changePass" class="user-form">
-    <div class="form-label-group">
-        <label for="password">Password</label>
-        <input name="password" type="password" required class="form-control"/>
-    </div>
-    <div class="form-label-group">
-        <label for="passwordConfirm">Password Confirmation</label>
-        <input name="passwordConfirm" type="password" required class="form-control"/>
-    </div>
     <br>
-    <input class="btn btn-lg btn-primary btn-block" type="submit" value="Save"/>
+    <a href="/user/changePass"><button class="btn btn-lg btn-warning btn-block" type="button">Change Password</button></a>
 </form>
+
 <%-include ../foot%>
