@@ -7,20 +7,20 @@ module.exports = {
       quantity = 0,
       paid = 0;
     var where = {};
-    var venture;
+    var venue;
     try {
       startDate = new Date(
         req.query.startDate ? req.query.startDate : "2017-1-1"
       );
       endDate = req.query.endDate ? new Date(req.query.endDate) : new Date();
-      venture = req.query.venture ? req.query.venture : "";
+      venue = req.query.venture ? req.query.venture : "";
       where = {
         start_time: {
           [models.sequelize.Op.between]: [startDate, endDate]
         },
         approved: true,
         cancelled: false,
-        location: { $iLike: "%" + venture + "%" }
+        location: { $iLike: "%" + venue + "%" }
       };
       models.Event.findAll({
         where,
@@ -45,7 +45,7 @@ module.exports = {
           total,
           quantity,
           paid,
-          venture,
+          venue,
           startDate: startDate.toISOString().substr(0, 10),
           endDate: endDate.toISOString().substr(0, 10)
         });
