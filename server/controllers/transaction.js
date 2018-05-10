@@ -76,6 +76,7 @@ module.exports = {
     },
     list: (req, res, next) => {
       var where = {};
+      var transWhere = {userId: req.user.id}
       if (!req.query.showAll) {
         where = {
           start_time: {
@@ -85,13 +86,14 @@ module.exports = {
           },
           cancelled: false
         };
+        transWhere.cancelled = false
       }
 
       models.Event.findAll({
         include: [
           {
             model: models.Transaction,
-            where: { userId: req.user.id },
+            where: transWhere,
             include: [{ model: models.Ticket }]
           }
         ],
@@ -107,9 +109,13 @@ module.exports = {
     },
     single: (req, res) => {
       //console.log(req.transaction);
-      res.render("transaction/single", {
-        transaction: req.transaction.get({ plain: true })
-      });
+      try {
+        res.render("transaction/single", {
+          transaction: req.transaction.get({ plain: true })
+        });
+      }catch (e) {
+        next(e)
+      }
     }
   },
   post: {
