@@ -151,7 +151,7 @@ module.exports = {
               "/booking/" + req.event.id + "?count=" + req.body.quantity
             );
           if (promotion.isPercentage)
-            transaction.discounted = total * promotion.amount;
+            transaction.discounted = total * promotion.amount / 100;
           else transaction.discounted = promotion.amount;
           transaction.discounted = Math.min(transaction.discounted, total);
           transaction.promotionCode = req.body.promotionCode;
