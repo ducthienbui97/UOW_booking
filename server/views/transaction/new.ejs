@@ -26,7 +26,19 @@ Promotion Code: <%= code %> <br>
                 <th>Email</th>
                 <th>Student Number</th>
             </tr>
-            <%for(var i = 0; i < tickets; i++){%>
+            <tr>
+                <td>1</td>
+                <td>
+                    <input name="tickets[0][name]" type="text" required class="border-bottom form-control" value="<%=user.name%>">
+                </td>
+                <td>
+                    <input name="tickets[0][email]" type="email"  class="border-bottom form-control" value="<%=user.email%>">
+                </td>
+                <td>
+                    <input name="tickets[0][studentNo]" type="number" class="border-bottom form-control" value="<%=user.studentNo%>">
+                </td>
+            </tr>
+            <%for(var i = 1; i < tickets; i++){%>
             <tr>
                 <td>
                     <%=i+1%>
