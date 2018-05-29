@@ -2,9 +2,10 @@ var models = require("../models");
 var orders = ["start_time", "price"];
 module.exports = {
   get: (req, res, next) => {
+    var query,order;
     try {
-      var query = req.query.q ? req.query.q : "";
-      var order = orders.indexOf(order) >= 0 ? req.query.order : "start_time";
+      query = req.query.q ? req.query.q : "";
+      order = orders.indexOf(order) >= 0 ? req.query.order : "start_time";
       query = query.split(/[^A-Za-z1-9]+/).join("%");
       models.Event.findAll({
         where: {

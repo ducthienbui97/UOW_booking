@@ -52,7 +52,7 @@ module.exports = {
           );
           if (promotion) {
             code = promotion.code;
-            if (promotion.isPercentage) discount = total * promotion.amount;
+            if (promotion.isPercentage) discount = total * promotion.amount / 100;
             else discount = promotion.amount;
             discount = Math.min(discount, total);
             res.locals.success = {
