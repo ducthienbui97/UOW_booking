@@ -14,7 +14,7 @@
         "setup:env": "node_modules/.bin/envup"
     },
     "dependencies": {
-        "axios": "^0.18.0",
+        "axios": "^0.21.1",
         "bcrypt-nodejs": "^0.0.3",
         "body-parser": "~1.18.2",
         "bower": "^1.8.4",
@@ -33,7 +33,7 @@
         "pg": "^7.4.1",
         "pg-hstore": "^2.3.2",
         "prettier": "^1.11.1",
-        "sequelize": "^4.37.0",
+        "sequelize": "^6.1.0",
         "sequelize-cli": "^4.0.0",
         "serve-favicon": "~2.4.5",
         "stripe": "^5.8.0",
