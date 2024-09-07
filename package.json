@@ -31,12 +31,12 @@
         "passport": "^0.4.0",
         "passport-local": "^1.0.0",
         "pg": "^7.4.1",
-        "pg-hstore": "^2.3.2",
+        "pg-hstore": "^2.3.4",
         "prettier": "^1.11.1",
         "sequelize": "^4.37.0",
-        "sequelize-cli": "^4.0.0",
+        "sequelize-cli": "^6.5.1",
         "serve-favicon": "~2.4.5",
-        "stripe": "^5.8.0",
+        "stripe": "^8.213.0",
         "uuid": "^3.2.1"
     }
 }
